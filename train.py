@@ -30,7 +30,7 @@ def main() -> None:
     ap.add_argument("--device", default=None, help="0, 0,1, cpu or mps; default picks automatically")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--patience", type=int, default=30, help="stop after this many epochs without improvement")
-    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seed", type=int, default=48, help="our TEAM_ID from the organizers")
     ap.add_argument("--project", default="runs/segment")
     ap.add_argument("--name", default="baseline")
     ap.add_argument("--hyp", type=Path, help="YAML of extra Ultralytics train args (augmentation, lr, ...)")

@@ -1,6 +1,6 @@
 # Kế hoạch dữ liệu
 
-Mục **(đoán)** là giả định của nhóm, cần kiểm tra lại với dữ liệu mẫu của BTC.
+Mục **(đoán)** là giả định của nhóm, chưa được BTC xác nhận.
 
 ## 1. Gán nhãn 11 lớp (id cố định)
 
@@ -18,11 +18,17 @@ Mục **(đoán)** là giả định của nhóm, cần kiểm tra lại với d
 | 9 | Sign | **chỉ mặt biển** | không lấy cột, không lấy mặt sau **(đoán)** |
 | 10 | Traffic light | **cả hộp đèn** | không chỉ bóng đang sáng |
 
-Quy tắc thêm **(đoán)**:
-- Bị che: chỉ vẽ phần nhìn thấy. Nếu bị chia làm hai mảnh, vẽ mảnh lớn hơn.
-- Bỏ vật nhỏ hơn khoảng 8×8 px, phản chiếu, hình trên biển quảng cáo.
-- Ảnh không có vật nào: để file `.txt` rỗng.
-- Không dán hình chữ nhật thay cho đa giác (`check_labels.py` sẽ cảnh báo).
+Quy ước chính thức của BTC:
+- Mask chỉ phủ phần nhìn thấy và **không chồng nhau**: vật phía trước giữ pixel, vật phía sau chỉ phủ phần còn lại.
+- Vật bị cột hoặc dây che thành nhiều mảnh vẫn là **một** instance.
+- Không phủ bóng đổ, phản chiếu, ánh đèn pha.
+- Đầu kéo là Truck, rơ-moóc/container là Other vehicle: hai instance riêng.
+- Xe đạp điện không bàn đạp (kiểu xe máy điện) là Motorcycle/Motorcyclist.
+- Không gán: vật sau kính cửa hàng, người trong ô tô nhìn qua kính, áp phích, biển quảng cáo/cửa hàng, động vật, xe đẩy tay, đèn xe, đèn trang trí, vật có cạnh ngắn dưới khoảng 1,25% cạnh dài của ảnh.
+- Phân vân xe 4 bánh: dưới khoảng 9 chỗ là Car, kiểu xe buýt là Bus, xe tải/đầu kéo là Truck, còn lại là Other vehicle.
+- Ảnh không có vật nào: để file `.txt` rỗng. Không dán hình chữ nhật thay cho đa giác.
+
+Hướng dẫn đầy đủ: [labeling_guideline.md](https://competition.antco.ai/data/labeling_guideline.md).
 
 ## 2. Chia train/val
 

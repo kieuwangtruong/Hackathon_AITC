@@ -2,6 +2,10 @@
 
 Cuộc thi RoboTaxi data-centric: mô hình cố định `yolo26n-seg`, `imgsz=640`. Nhóm chỉ cải thiện **dữ liệu**.
 
+- **Hạn nộp: 10:30 ngày 28/11.** Bảng private công bố 11:00, thuyết trình từ 11:30. Hàng đợi chấm chạy lần lượt, nên đừng nộp sát giờ.
+- **TEAM_ID (seed) của đội: 48.** Điểm = 100 × mask mAP@[.5:.95].
+- Bài nộp chính thức phải tạo bằng **notebook mẫu của BTC** (bước 3: xuất ONNX, kiểm tra, đóng zip). Giữ lại notebook, dữ liệu và `run_report.json`.
+
 ## Bắt đầu nhanh
 
 **Trên Colab (khuyên dùng):** mở [notebook dùng chung](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb), chọn GPU, rồi chạy lần lượt các ô. Xem [colab/README.md](colab/README.md).
@@ -44,6 +48,6 @@ Chốt phiên bản: `git tag -a v0.1.0 -m "v0.1.0" origin/main && git push orig
 
 ## Lưu ý
 
-- `export.py` đang dùng tham số mặc định. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của họ vào.
+- `export.py` chỉ để thử nhanh. Bản nộp thật phải làm bằng notebook mẫu của BTC.
 - Điểm val chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
 - Mỗi bộ dữ liệu công khai đã dùng phải ghi vào báo cáo: tên, link, giấy phép, số ảnh, cách ánh xạ 11 lớp.
