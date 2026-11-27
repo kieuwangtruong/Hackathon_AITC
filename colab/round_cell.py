@@ -21,7 +21,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 _KQ = '/content/drive/MyDrive/Hackathon_AITC/ket_qua'
 _prev = f'{_KQ}/{PREV}'
-os.makedirs(_prev, exist_ok=True)
+os.makedirs(_prev, exist_ok=True); os.makedirs('/content/drive/MyDrive/Hackathon_AITC/datasets', exist_ok=True)
 for _f in ('submission.zip', 'run_report.json'):
     if os.path.exists(f'{_KQ}/{_f}'):
         shutil.move(f'{_KQ}/{_f}', f'{_prev}/{_f}')
