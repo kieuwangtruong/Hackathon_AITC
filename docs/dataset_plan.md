@@ -18,9 +18,17 @@ Mục **(đoán)** là giả định của nhóm, cần kiểm tra lại với d
 | 9 | Sign | phần tấm biển nhìn thấy, kể cả mặt sau nếu nhận diện được | bỏ cột và giá đỡ |
 | 10 | Traffic light | **cả hộp đèn** | không chỉ bóng đang sáng |
 
-Dùng [guideline v1](labeling-guideline-v1.md) cho ngưỡng kích thước, mask bị che khuất và cách gộp người với xe. Tra ID và tag ảnh trong [danh mục JSON](../configs/antco-labels-v1.json).
+Quy ước chính thức của BTC:
+- Mask chỉ phủ phần nhìn thấy và **không chồng nhau**: vật phía trước giữ pixel, vật phía sau chỉ phủ phần còn lại.
+- Vật bị cột hoặc dây che thành nhiều mảnh vẫn là **một** instance.
+- Không phủ bóng đổ, phản chiếu, ánh đèn pha.
+- Đầu kéo là Truck, rơ-moóc/container là Other vehicle: hai instance riêng.
+- Xe đạp điện không bàn đạp (kiểu xe máy điện) là Motorcycle/Motorcyclist.
+- Không gán: vật sau kính cửa hàng, người trong ô tô nhìn qua kính, áp phích, biển quảng cáo/cửa hàng, động vật, xe đẩy tay, đèn xe, đèn trang trí, vật có cạnh ngắn dưới khoảng 1,25% cạnh dài của ảnh.
+- Phân vân xe 4 bánh: dưới khoảng 9 chỗ là Car, kiểu xe buýt là Bus, xe tải/đầu kéo là Truck, còn lại là Other vehicle.
+- Ảnh không có vật nào: để file `.txt` rỗng. Không dán hình chữ nhật thay cho đa giác.
 
-Giữ file `.txt` rỗng khi đã xác nhận ảnh không có đối tượng đủ điều kiện. Vẽ đa giác bám biên và chạy `check_labels.py` để kiểm tra định dạng.
+Hướng dẫn đầy đủ: [labeling_guideline.md](https://competition.antco.ai/data/labeling_guideline.md).
 
 ## 2. Chia train/val
 
@@ -34,7 +42,7 @@ python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/l
     --meta datasets/v1/meta.csv --out splits/v1 --force-train mapillary,idd,bdd,coco
 ```
 
-Dùng `file,group,time_of_day,source` theo [mẫu `meta.csv`](labeling-guideline-v1.md#tag-thời-điểm-theo-ảnh). Chọn `unknown` nếu khó xác định thời điểm. Khi thiếu metadata, script suy ra nhóm từ tên tệp và ngày hoặc đêm từ độ sáng.
+Dùng `file,group,time_of_day,source` theo [mẫu `meta.csv`](labeling-guideline-v1.md#tag-thời-điểm-theo-ảnh). Tra lớp và tag trong [danh mục JSON](../configs/antco-labels-v1.json). Chọn `unknown` nếu khó xác định thời điểm. Khi thiếu metadata, script suy ra nhóm từ tên tệp và ngày hoặc đêm từ độ sáng.
 
 ## 3. Dữ liệu công khai
 
