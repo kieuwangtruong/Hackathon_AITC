@@ -30,8 +30,12 @@ if os.path.exists('/content/work/runs/train/weights/best.pt') and not os.path.ex
 _run('pip install -q pycocotools remotezip ultralytics==8.4.214')
 _zip = f'/content/du_lieu_{ROUND}.zip'
 _args = BUILD_ARGS.replace('{PREV_BEST}', f'{_prev}/best.pt')
-_run(f'python -u /content/repo_r/tools/build_round.py --out {_zip} --work /content/round_work {_args}')
-shutil.copy(_zip, f'/content/drive/MyDrive/Hackathon_AITC/datasets/du_lieu_{ROUND}.zip')
+_dz = f'/content/drive/MyDrive/Hackathon_AITC/datasets/du_lieu_{ROUND}.zip'
+if os.path.exists(_dz):  # built before (e.g. runtime was cut off): reuse it
+    shutil.copy(_dz, _zip)
+else:
+    _run(f'python -u /content/repo_r/tools/build_round.py --out {_zip} --work /content/round_work {_args}')
+    shutil.copy(_zip, _dz)
 shutil.rmtree('/content/work/dataset', ignore_errors=True)
 shutil.rmtree('/content/work/raw', ignore_errors=True)
 DATASET_PATH = _zip
@@ -39,4 +43,15 @@ DRIVE_OUTPUT_DIR = f'{_KQ}/{ROUND}'
 os.makedirs(DRIVE_OUTPUT_DIR, exist_ok=True)
 EPOCHS = EPOCHS_R
 PARAMS['EPOCHS'] = EPOCHS
+import threading, time
+def _backup(dst=f'{DRIVE_OUTPUT_DIR}/ckpt'):  # copy weights to Drive every 5 min, survives a disconnect
+    os.makedirs(dst, exist_ok=True)
+    while True:
+        time.sleep(300)
+        for w in ('best.pt', 'last.pt'):
+            f = f'/content/work/runs/train/weights/{w}'
+            if os.path.exists(f):
+                try: shutil.copy(f, f'{dst}/{w}')
+                except Exception as e: print('backup', e)
+threading.Thread(target=_backup, daemon=True).start()
 print(f'Round {ROUND}: data {DATASET_PATH}, results -> {DRIVE_OUTPUT_DIR}, epochs {EPOCHS}; previous run archived in {_prev}')
