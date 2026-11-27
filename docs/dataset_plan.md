@@ -15,7 +15,7 @@ Mục **(đoán)** là giả định của nhóm, chưa được BTC xác nhận
 | 6 | Bicycle | xe đạp không người | |
 | 7 | Cyclist | **một** mask gồm xe đạp + người | |
 | 8 | Pedestrian | mọi người không ngồi trên xe, kể cả người dắt xe | người dắt xe = Pedestrian + Motorcycle/Bicycle |
-| 9 | Sign | **chỉ mặt biển** | không lấy cột, không lấy mặt sau **(đoán)** |
+| 9 | Sign | phần tấm biển nhìn thấy, kể cả mặt sau nếu nhận diện được | bỏ cột và giá đỡ |
 | 10 | Traffic light | **cả hộp đèn** | không chỉ bóng đang sáng |
 
 Quy ước chính thức của BTC:
@@ -34,7 +34,7 @@ Hướng dẫn đầy đủ: [labeling_guideline.md](https://competition.antco.a
 
 - Val **chỉ có ảnh Việt Nam**. Dữ liệu nước ngoài chỉ đưa vào train (`--force-train`).
 - Tách **theo nhóm** (camera, video, địa điểm), không tách từng frame. Frame cùng video gần như giống hệt nhau.
-- Mỗi điều kiện (ngày/đêm, mưa) có khoảng 20% ảnh trong val. Nên có 300-600 ảnh val từ ít nhất 8-10 nhóm **(đoán)**.
+- Nhắm khoảng 20% ảnh validation theo `time_of_day` khi có đủ nhóm quay. Nên có 300-600 ảnh val từ ít nhất 8-10 nhóm **(đoán)**.
 - **Giữ nguyên tập val** giữa các vòng để điểm so sánh được. Dữ liệu mới thì cho vào train.
 
 ```bash
@@ -42,7 +42,7 @@ python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/l
     --meta datasets/v1/meta.csv --out splits/v1 --force-train mapillary,idd,bdd,coco
 ```
 
-`meta.csv` (không bắt buộc): `file, group, camera, location, time_of_day, weather, source`. Không có file này thì script tự đoán nhóm theo tên file và đoán ngày/đêm theo độ sáng.
+Dùng `file,group,time_of_day,source` theo [mẫu `meta.csv`](labeling-guideline-v1.md#tag-thời-điểm-theo-ảnh). Tra lớp và tag trong [danh mục JSON](../configs/antco-labels-v1.json). Chọn `unknown` nếu khó xác định thời điểm. Khi thiếu metadata, script suy ra nhóm từ tên tệp và ngày hoặc đêm từ độ sáng.
 
 ## 3. Dữ liệu công khai
 
@@ -54,19 +54,18 @@ Kiểm tra giấy phép trên trang chính thức trước khi dùng, và ghi v�
 | [IDD Segmentation](https://idd.insaan.iiit.ac.in) | Nghiên cứu | Đường Ấn Độ, nhiều xe hai bánh, gần VN nhất |
 | [BDD100K](https://bdd-data.berkeley.edu) | Nghiên cứu | Cảnh đêm, mưa |
 | [COCO 2017](https://cocodataset.org) | CC BY 4.0 (nhãn) | Nhiều người và xe máy |
-| [Zalo AI 2020 Traffic Sign](https://datasetninja.com/zalo-traffic-sign) | Chưa rõ | Biển báo VN (chỉ có box, cần SAM 2) |
+| [Zalo AI 2020 Traffic Sign](https://datasetninja.com/zalo-traffic-sign) | Chưa rõ | Biển báo VN có box để tạo mask nháp với SAM 3 |
 | [VN Vehicle Tracking](https://zenodo.org/records/18195750) | CC BY 4.0 | Mật độ xe máy VN thật (chỉ có box) |
 
-Ánh xạ chung: người chồng lên xe máy/xe đạp thì gộp mask thành 5/7; xe không người là 4/6; người còn lại là 8. Xe tự chế (ba gác, xe lam) không có trong bộ nào nên phải tự gán.
+Ghép đúng người đang ngồi với xe tương ứng trước khi gán `5` hoặc `7`. Xe không người dùng `4` hoặc `6`. Người dắt xe có mask `8` riêng. Ưu tiên tự gán thêm ba gác và xe lam trong ảnh Việt Nam.
 
 Rủi ro: xe ở nước ngoài trông khác xe VN. Thêm từng phần và chỉ giữ lại phần làm tăng điểm val VN.
 
-## 4. Gán nhãn nháp rồi sửa tay
+## 4. Gán nhãn nháp bằng SAM 3 rồi duyệt tay
 
-1. Lấy frame VN, khoảng 1 frame mỗi 2-3 giây.
-2. Tạo nhãn nháp bằng model lớn (`predict.py`, yolo-seg cỡ lớn, hoặc Grounding DINO + SAM 2 cho biển báo, đèn, xích lô, ba gác).
-3. Sửa tay trong CVAT hoặc Label Studio. Tập trung vào lớp hiếm, người trên xe, biển báo.
-4. Chạy `check_labels.py`, train, xem lỗi trên val, rồi gán thêm loại ảnh model hay sai.
+1. Gán thử một lô chung theo [guideline v1](labeling-guideline-v1.md#phối-hợp-thu-thập-và-gán-nhãn-bằng-sam-3), rồi chia các lô thu thập theo nguồn quay. Chọn các khung khác nhau từ mỗi video.
+2. Tạo mask nháp bằng SAM 3, sau đó duyệt lớp, đường viền, cặp người–xe và vật thể bị bỏ sót.
+3. Xuất YOLO-seg, chạy `check_labels.py` và dùng lỗi trên tập val để chọn lô tiếp theo.
 
 Ưu tiên cảnh khó: đêm, mưa, đông xe máy, bị che, chói sáng, và lớp hiếm (ba gác, xích lô, xe lam, xe công trình, xe đạp).
 
