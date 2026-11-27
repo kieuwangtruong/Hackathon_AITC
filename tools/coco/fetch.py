@@ -6,15 +6,18 @@ by = {}
 for k in ch: by.setdefault(k.split('/')[0], []).append(k)
 def job(split, names):
     import time
-    for k in names:
+    z = None
+    for n, k in enumerate(names):
         out = 'coco/raw/' + k.replace('/', '_')
         for attempt in range(5):
             if os.path.exists(out): break
             try:
-                z = RemoteZip(f'https://s3.amazonaws.com/fast-ai-coco/{split}.zip')
+                if z is None:
+                    z = RemoteZip(f'https://s3.amazonaws.com/fast-ai-coco/{split}.zip')
                 data = z.read(k); open(out + '.part', 'wb').write(data); os.replace(out + '.part', out)
             except Exception as e:
-                print('retry', k, e); time.sleep(2 * (attempt + 1))
+                print('retry', k, e, flush=True); z = None; time.sleep(2 * (attempt + 1))
+        if n % 100 == 0: print(split, n, '/', len(names), flush=True)
 tasks = []
 with cf.ThreadPoolExecutor(8) as ex:
     for split, ks in by.items():
