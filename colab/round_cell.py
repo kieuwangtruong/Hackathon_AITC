@@ -30,6 +30,10 @@ if os.path.exists('/content/work/runs/train/weights/best.pt') and not os.path.ex
 _run('pip install -q pycocotools remotezip ultralytics==8.4.214')
 _zip = f'/content/du_lieu_{ROUND}.zip'
 _args = BUILD_ARGS.replace('{PREV_BEST}', f'{_prev}/best.pt')
+if not os.path.exists(f'{_prev}/best.pt'):  # e.g. another Google account: no earlier weights, skip sign pseudo-labels
+    import re
+    _args = re.sub(r'--sign-(model|conf) \S+', '', _args)
+    print('No earlier best.pt: building without sign pseudo-labels')
 _dz = f'/content/drive/MyDrive/Hackathon_AITC/datasets/du_lieu_{ROUND}.zip'
 if os.path.exists(_dz):  # built before (e.g. runtime was cut off): reuse it
     shutil.copy(_dz, _zip)
