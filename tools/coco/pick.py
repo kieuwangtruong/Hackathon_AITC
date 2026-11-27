@@ -15,6 +15,10 @@ quota = [('moto', 320, lambda k: g(k,'motorcycle') and street(k)),
 over = json.loads(os.environ.get('QUOTA', '{}'))
 quota = [(n, over.get(n, q), f) for n, q, f in quota]
 chosen = {}
+# FORCE=<file>: COCO keys always picked (frozen val images)
+if os.environ.get('FORCE'):
+    for k in open(os.environ['FORCE']).read().split():
+        chosen[k] = 'val'
 for name, n, f in quota:
     got = 0
     for k in keys:

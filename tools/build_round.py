@@ -28,6 +28,7 @@ def main():
     ap.add_argument('--quota', default='{}', help='COCO quota overrides, JSON')
     ap.add_argument('--no-coco', action='store_true')
     ap.add_argument('--coco-val', type=int, default=0, help='COCO images moved to val (bigger val = steadier best.pt pick)')
+    ap.add_argument('--coco-val-list', help='file of COCO keys (train2017/x.jpg) that form val; overrides --coco-val')
     ap.add_argument('--no-unsquash', action='store_true')
     ap.add_argument('--sign-model', help='earlier best.pt: pseudo-label Sign on COCO images')
     ap.add_argument('--sign-conf', type=float, default=0.5)
@@ -51,6 +52,8 @@ def main():
             shutil.copy(lab, ds / 'labels' / split / f'{stem}.txt'); n[split] += 1
     if not a.no_coco:
         env = dict(os.environ, QUOTA=a.quota)
+        if a.coco_val_list:
+            env['FORCE'] = str(pathlib.Path(a.coco_val_list).resolve())
         if not (work / 'coco/annotations').exists():
             (work / 'coco').mkdir(exist_ok=True)
             subprocess.check_call(['curl', '-sL', '-o', 'coco/ann.zip', ANN], cwd=work)
@@ -65,8 +68,9 @@ def main():
             subprocess.check_call([sys.executable, '-u', str(ROOT / 'tools/coco/add_signs.py'), str(work / 'coco_yolo'), a.sign_model, '--conf', str(a.sign_conf)])
         import hashlib
         cimgs = sorted((work / 'coco_yolo/images').iterdir(), key=lambda f: hashlib.md5(f.name.encode()).hexdigest())
+        vset = {'coco_' + k.split('/')[1] for k in open(a.coco_val_list).read().split()} if a.coco_val_list else None
         for i, f in enumerate(cimgs):
-            split = 'val' if i < a.coco_val else 'train'
+            split = ('val' if f.name in vset else 'train') if vset is not None else ('val' if i < a.coco_val else 'train')
             shutil.copy(f, ds / 'images' / split / f.name)
             shutil.copy(work / 'coco_yolo/labels' / f'{f.stem}.txt', ds / 'labels' / split / f'{f.stem}.txt'); n[split] += 1
     with zipfile.ZipFile(a.out, 'w', zipfile.ZIP_DEFLATED) as zf:
