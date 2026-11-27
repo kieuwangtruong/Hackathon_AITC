@@ -1,0 +1,92 @@
+{
+  "audit_date": "2026-11-28",
+  "timezone": "Asia/Bangkok",
+  "base_commit": "b924659",
+  "scope": "All tracked dataset images and labels; targeted visual review, not full semantic approval",
+  "format_status": "PASS",
+  "semantic_status": "PENDING_FINAL_QA",
+  "verification": {
+    "ultralytics_version": "8.4.214",
+    "images_verified": 150,
+    "instances_verified": 1774,
+    "ultralytics_errors": [],
+    "notebook_invalid_polygons": [],
+    "notebook_tiny_instances": []
+  },
+  "datasets": {
+    "pov_hard_ez": {
+      "images": 100,
+      "labels": 100,
+      "errors": 0,
+      "warnings": 194,
+      "ultralytics_errors": 0,
+      "small_bbox": 21,
+      "tiny_area": 0,
+      "overlap_candidates": 0,
+      "duplicate_instances": 0,
+      "metadata_rows": 100,
+      "metadata_groups": 41,
+      "conditions": {
+        "day": 100
+      },
+      "missing_labels": 0,
+      "orphan_labels": 0,
+      "metadata_missing": 0,
+      "metadata_extra": 0,
+      "instances": {
+        "Car": 131,
+        "Bus": 21,
+        "Truck": 15,
+        "Other vehicle": 16,
+        "Motorcycle": 20,
+        "Motorcyclist": 425,
+        "Bicycle": 3,
+        "Cyclist": 1,
+        "Pedestrian": 40,
+        "Sign": 199,
+        "Traffic light": 59
+      }
+    },
+    "pov_med": {
+      "images": 50,
+      "labels": 50,
+      "errors": 0,
+      "warnings": 15,
+      "ultralytics_errors": 0,
+      "small_bbox": 6,
+      "tiny_area": 0,
+      "overlap_candidates": 55,
+      "duplicate_instances": 0,
+      "metadata_rows": 50,
+      "metadata_groups": 25,
+      "conditions": {
+        "day": 50
+      },
+      "missing_labels": 0,
+      "orphan_labels": 0,
+      "metadata_missing": 0,
+      "metadata_extra": 0,
+      "instances": {
+        "Car": 130,
+        "Bus": 12,
+        "Truck": 21,
+        "Other vehicle": 20,
+        "Motorcycle": 17,
+        "Motorcyclist": 321,
+        "Bicycle": 1,
+        "Cyclist": 0,
+        "Pedestrian": 21,
+        "Sign": 275,
+        "Traffic light": 26
+      }
+    }
+  },
+  "exact_duplicate_image_groups": 0,
+  "cross_dataset_dhash_pairs_at_distance_4": 0,
+  "scoring": {
+    "status": "NOT_RUN",
+    "reason": "No trained best.pt/model.onnx or run_report.json found in the local project",
+    "metric": "100 * mask mAP@[.50:.95]",
+    "seed": 48
+  }
+}

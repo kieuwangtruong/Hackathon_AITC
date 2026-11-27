@@ -18,3 +18,7 @@ python tools/check_labels.py --images datasets/pov_hard_ez/images --labels datas
 python tools/split_dataset.py --images datasets/pov_hard_ez/images --labels datasets/pov_hard_ez/labels --meta datasets/pov_hard_ez/meta.csv --out splits/pov_hard_ez --seed 48
 python tools/make_split_zip.py --split splits/pov_hard_ez --out du_lieu.zip
 ```
+
+## Rà soát ngày 28/11/2026
+
+Xem [báo cáo rà soát](../../docs/label-audit-2026-11-28.md) và danh sách ảnh/dòng nhãn cần kiểm tra. Đúng cú pháp YOLO-seg chưa đồng nghĩa đủ đối tượng hoặc đúng biên mask. Lượt này kiểm tra định dạng toàn bộ, xem crop theo rủi ro; không nâng trạng thái duyệt nội dung.

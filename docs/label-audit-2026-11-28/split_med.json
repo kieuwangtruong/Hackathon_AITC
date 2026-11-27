@@ -1,0 +1,54 @@
+{
+  "seed": 48,
+  "val_frac_target": 0.2,
+  "splits": {
+    "train": {
+      "images": 40,
+      "groups": 19,
+      "conditions": {
+        "day": 40
+      },
+      "instances": {
+        "Car": 92,
+        "Bus": 10,
+        "Truck": 11,
+        "Other vehicle": 18,
+        "Motorcycle": 15,
+        "Motorcyclist": 232,
+        "Bicycle": 0,
+        "Cyclist": 0,
+        "Pedestrian": 17,
+        "Sign": 235,
+        "Traffic light": 22
+      }
+    },
+    "val": {
+      "images": 10,
+      "groups": 6,
+      "conditions": {
+        "day": 10
+      },
+      "instances": {
+        "Car": 38,
+        "Bus": 2,
+        "Truck": 10,
+        "Other vehicle": 2,
+        "Motorcycle": 2,
+        "Motorcyclist": 89,
+        "Bicycle": 1,
+        "Cyclist": 0,
+        "Pedestrian": 4,
+        "Sign": 40,
+        "Traffic light": 4
+      }
+    }
+  },
+  "val_groups": [
+    "med_g01",
+    "med_g12",
+    "med_g16",
+    "med_g19",
+    "med_g21",
+    "med_g23"
+  ]
+}
