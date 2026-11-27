@@ -1,5 +1,9 @@
 # Hackathon_AITC
 
+## Google Colab
+
+Notebook dùng chung có thể tải code mới nhất từ nhánh `main` mỗi khi chạy. Xem [hướng dẫn sử dụng](colab/README.md) hoặc [mở notebook trong Colab](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb).
+
 ## CI/CD cho nhóm
 
 Workflow kiểm tra cấu hình GitHub Actions và lỗi khoảng trắng trong phần thay đổi, sau đó tạo và kiểm tra gói ZIP từ commit đang chạy. [Xem workflow](.github/workflows/ci-cd.yml)
