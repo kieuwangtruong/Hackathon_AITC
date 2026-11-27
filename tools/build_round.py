@@ -58,11 +58,11 @@ def main():
         for script in ('coco_select.py', 'pick.py', 'fetch.py'):
             if script == 'coco_select.py' and (work / 'coco/cands.json').exists():
                 continue
-            subprocess.check_call([sys.executable, str(ROOT / 'tools/coco' / script)], cwd=work, env=env)
+            subprocess.check_call([sys.executable, '-u', str(ROOT / 'tools/coco' / script)], cwd=work, env=env)
         shutil.rmtree(work / 'coco_yolo', ignore_errors=True)
-        subprocess.check_call([sys.executable, str(ROOT / 'tools/coco/convert.py'), str(work / 'coco_yolo')], cwd=work)
+        subprocess.check_call([sys.executable, '-u', str(ROOT / 'tools/coco/convert.py'), str(work / 'coco_yolo')], cwd=work)
         if a.sign_model:
-            subprocess.check_call([sys.executable, str(ROOT / 'tools/coco/add_signs.py'), str(work / 'coco_yolo'), a.sign_model, '--conf', str(a.sign_conf)])
+            subprocess.check_call([sys.executable, '-u', str(ROOT / 'tools/coco/add_signs.py'), str(work / 'coco_yolo'), a.sign_model, '--conf', str(a.sign_conf)])
         import hashlib
         cimgs = sorted((work / 'coco_yolo/images').iterdir(), key=lambda f: hashlib.md5(f.name.encode()).hexdigest())
         for i, f in enumerate(cimgs):

@@ -4,6 +4,17 @@
 #   exec(open('/content/repo_r/colab/round_cell.py').read())
 # Archives the previous run's outputs to ket_qua/<PREV>, builds this round's zip, points the notebook at it.
 import os, shutil, subprocess, json
+
+
+def _run(cmd):
+    pr = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    for line in pr.stdout:
+        if 'index created' not in line and 'loading annotations' not in line:
+            print(line, end='', flush=True)
+    if pr.wait():
+        raise RuntimeError(f'failed: {cmd}')
+
+
 _cfg = json.load(open('/content/repo_r/colab/rounds.json'))[ROUND]
 PREV, BUILD_ARGS, EPOCHS_R = _cfg['prev'], _cfg['args'], _cfg['epochs']
 from google.colab import drive
@@ -16,10 +27,10 @@ for _f in ('submission.zip', 'run_report.json'):
         shutil.move(f'{_KQ}/{_f}', f'{_prev}/{_f}')
 if os.path.exists('/content/work/runs/train/weights/best.pt') and not os.path.exists(f'{_prev}/best.pt'):
     shutil.copy('/content/work/runs/train/weights/best.pt', f'{_prev}/best.pt')
-subprocess.check_call('pip install -q pycocotools remotezip ultralytics==8.4.214', shell=True)
+_run('pip install -q pycocotools remotezip ultralytics==8.4.214')
 _zip = f'/content/du_lieu_{ROUND}.zip'
 _args = BUILD_ARGS.replace('{PREV_BEST}', f'{_prev}/best.pt')
-subprocess.check_call(f'python /content/repo_r/tools/build_round.py --out {_zip} --work /content/round_work {_args}', shell=True)
+_run(f'python -u /content/repo_r/tools/build_round.py --out {_zip} --work /content/round_work {_args}')
 shutil.copy(_zip, f'/content/drive/MyDrive/Hackathon_AITC/datasets/du_lieu_{ROUND}.zip')
 shutil.rmtree('/content/work/dataset', ignore_errors=True)
 shutil.rmtree('/content/work/raw', ignore_errors=True)
