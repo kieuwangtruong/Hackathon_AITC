@@ -28,6 +28,8 @@ def main():
     ap.add_argument('--quota', default='{}', help='COCO quota overrides, JSON')
     ap.add_argument('--no-coco', action='store_true')
     ap.add_argument('--no-unsquash', action='store_true')
+    ap.add_argument('--sign-model', help='earlier best.pt: pseudo-label Sign on COCO images')
+    ap.add_argument('--sign-conf', type=float, default=0.5)
     a = ap.parse_args()
     work = pathlib.Path(a.work); work.mkdir(parents=True, exist_ok=True)
     val = set((ROOT / 'configs/val_v1.txt').read_text().split())
@@ -58,6 +60,8 @@ def main():
             subprocess.check_call([sys.executable, str(ROOT / 'tools/coco' / script)], cwd=work, env=env)
         shutil.rmtree(work / 'coco_yolo', ignore_errors=True)
         subprocess.check_call([sys.executable, str(ROOT / 'tools/coco/convert.py'), str(work / 'coco_yolo')], cwd=work)
+        if a.sign_model:
+            subprocess.check_call([sys.executable, str(ROOT / 'tools/coco/add_signs.py'), str(work / 'coco_yolo'), a.sign_model, '--conf', str(a.sign_conf)])
         for f in (work / 'coco_yolo/images').iterdir():
             shutil.copy(f, ds / 'images/train' / f.name)
             shutil.copy(work / 'coco_yolo/labels' / f'{f.stem}.txt', ds / 'labels/train' / f'{f.stem}.txt'); n['train'] += 1

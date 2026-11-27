@@ -8,7 +8,9 @@ quota = [('moto', 320, lambda k: g(k,'motorcycle') and street(k)),
          ('bike', 280, lambda k: g(k,'bicycle') and street(k)),
          ('ped', 220, lambda k: g(k,'person') >= 2 and street(k) and (g(k,'traffic light') or g(k,'car')>=2)),
          ('tl', 120, lambda k: g(k,'traffic light') >= 2),
-         ('stop', 60, lambda k: g(k,'stop sign') and street(k))]
+         ('stop', 60, lambda k: g(k,'stop sign') and street(k)),
+         ('bus', 0, lambda k: g(k,'bus')),
+         ('truck', 0, lambda k: g(k,'truck'))]
 # QUOTA='{"moto":320,...}' overrides the counts above
 over = json.loads(os.environ.get('QUOTA', '{}'))
 quota = [(n, over.get(n, q), f) for n, q, f in quota]
