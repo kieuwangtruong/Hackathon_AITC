@@ -1,0 +1,39 @@
+{
+  "dataset_name": "pov_hard_ez",
+  "source_dataset": "Vietnam Traffic Signs - v1 (Roboflow)",
+  "source_url": "https://universe.roboflow.com/machinelearning-dddne/vietnam-traffic-signs-chsxr",
+  "license": "CC BY 4.0",
+  "included_tiers": ["ez", "hard"],
+  "excluded_tiers": ["med", "unassigned"],
+  "images": 100,
+  "instances": 930,
+  "classes": {
+    "Car": 131,
+    "Bus": 21,
+    "Truck": 15,
+    "Other vehicle": 16,
+    "Motorcycle": 20,
+    "Motorcyclist": 425,
+    "Bicycle": 4,
+    "Cyclist": 0,
+    "Pedestrian": 40,
+    "Sign": 199,
+    "Traffic light": 59
+  },
+  "review_status": {
+    "REVIEWED_PENDING_FINAL_QA": 25,
+    "PENDING": 75,
+    "edited_images": 22
+  },
+  "guideline": "docs/labeling-guideline-v1.md",
+  "annotation_format": "yolo-seg",
+  "polygon_validation": {
+    "check_labels_errors": 0,
+    "ultralytics_verify_errors": 0,
+    "colab_invalid_polygons": 0,
+    "tiny_instances_lt_64px": 0,
+    "retraced_bridge_warnings": 193,
+    "mean_mask_iou_cv2": 0.992848,
+    "min_mask_iou_cv2": 0.90696
+  }
+}
