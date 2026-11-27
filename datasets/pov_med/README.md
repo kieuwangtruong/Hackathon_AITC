@@ -10,7 +10,7 @@ Bộ 50 ảnh giao thông Việt Nam (tầng `med`) từ nguồn **Vietnam Traff
 - **Lưu ý cho team train**:
   - `Cyclist` hiện có **0** mẫu và `Bicycle` có **1** mẫu — nên gộp chung với `pov_hard_ez` và bổ sung thêm dữ liệu có `Cyclist`, `Bicycle`, ảnh đêm/mưa.
   - Đã bỏ qua các mảnh không nhận diện được / phần xe của người quay ở mép ảnh và các bảng tuyên truyền ven đường.
-  - Mọi đa giác đã vượt qua `tools/check_labels.py` bản kiểm tra tự cắt (**0 lỗi**; 15 cảnh báo cầu nối giữa các mảnh bị che, hợp lệ).
+  - Mọi đa giác đã vượt qua `tools/check_labels.py` bản kiểm tra tự cắt (**0 lỗi**; 15 cảnh báo cầu nối giữa các mảnh bị che; cần kiểm tra topology, không tự coi là đã đạt QA).
 
 ## Cách kiểm tra, chia tập và đóng gói cho Colab
 
@@ -19,3 +19,7 @@ python tools/check_labels.py --images datasets/pov_med/images --labels datasets/
 python tools/split_dataset.py --images datasets/pov_med/images --labels datasets/pov_med/labels --meta datasets/pov_med/meta.csv --out splits/pov_med --seed 48
 python tools/make_split_zip.py --split splits/pov_med --out du_lieu.zip
 ```
+
+## Rà soát ngày 28/11/2026
+
+Xem [báo cáo rà soát](../../docs/label-audit-2026-11-28.md) và danh sách ảnh/dòng nhãn cần kiểm tra. Đúng cú pháp YOLO-seg chưa đồng nghĩa đủ đối tượng hoặc đúng biên mask. Lượt này kiểm tra định dạng toàn bộ, xem crop theo rủi ro; không nâng trạng thái duyệt nội dung.

@@ -32,7 +32,7 @@
     "ultralytics_verify_errors": 0,
     "colab_invalid_polygons": 0,
     "tiny_instances_lt_64px": 0,
-    "retraced_bridge_warnings": 193,
+    "retraced_bridge_warnings": 194,
     "mean_mask_iou_cv2": 0.992848,
     "min_mask_iou_cv2": 0.90696
   }

@@ -1,0 +1,83 @@
+dataset,image,label_lines,issue,value,visual_review,action
+pov_hard_ez,ez/0132_jpg.rf.3490aef938081afa85c8a953c9899a60.jpg,6,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0464_jpg.rf.9cf5b38c9cedc037eb57d710292c1cab.jpg,4,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0492_jpg.rf.fdbc002d41257a12b19fe1a168e8e4bb.jpg,3,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0497_jpg.rf.669e6100bb527bb60f318ac0657f598d.jpg,4,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0515_jpg.rf.c3fa706c5b340d2706244059bbc57502.jpg,2,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0515_jpg.rf.c3fa706c5b340d2706244059bbc57502.jpg,4,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0607_jpg.rf.9c195ad06db0c581ee62dc3558438fc8.jpg,4,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/0626_jpg.rf.79994f752c47c101dc9dbe3852ada3ca.jpg,7,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1148_jpg.rf.06b0879a9587abd8730b6c1d49aac6be.jpg,13,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1196_jpg.rf.e6cc4cc6394431910647ec0cc738d867.jpg,3,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1444_jpg.rf.7589b9473b644591ac2ad6a15bb374cf.jpg,5,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1536_jpg.rf.87c12b6047693c7d9f2fbc980464cdc1.jpg,6,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1989_jpg.rf.65f87036f509ecbb3e488005322c4728.jpg,5,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/1998_jpg.rf.681c8b77c5ecaddb1ca8b0fc90ecedc0.jpg,5,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,ez/3191_jpg.rf.4b0ebd4ab300df657048ae98141af0cb.jpg,3,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/0345_jpg.rf.e81b69fceb0173f7f9503de4bed59bdc.jpg,10,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/0356_jpg.rf.9fc8c329fce2ebe67df931b02b6ceb94.jpg,7,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/0409_jpg.rf.ee3de76c6374c632e1156560bd0bdf0f.jpg,8,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/1513_jpg.rf.5398882a623dd829b54c9bf4e6f44689.jpg,5,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/2331_jpg.rf.f57bedbb5f05ba7b1c82a94eb1d5c8b8.jpg,9,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_hard_ez,hard/2692_jpg.rf.cbd542456a409921b81d0cb7c700a37f.jpg,8,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,1205_jpg.rf.fd0c9bf38f3e23a8afe9d4a84ced6130.jpg,11,bbox_below_8px,7.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,1366_jpg.rf.72674aacbd9744e43313b9fe312a6e46.jpg,4,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,2090_jpg.rf.709a9a2041769067cce01374febc37d0.jpg,18,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,2101_jpg.rf.d5ed7fe98b07543c003c9df72f4969c2.jpg,16,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,2401_jpg.rf.5ac1fdb27f06de854378304e90f6e661.jpg,15,near_8px_rounding,8.0,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,2831_jpg.rf.bf5c43f7eac5ce69b6d0c889739f4260.jpg,13,near_8px_rounding,7.999,crop_inspected,"Measure visible object, check incomplete mask, then omit only if truly below guideline threshold; retain rounding cases pending review"
+pov_med,0259_jpg.rf.3213e4f9241c38d31f1f928388a611c0.jpg,1;2,overlap,0.529,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0259_jpg.rf.3213e4f9241c38d31f1f928388a611c0.jpg,1;3,overlap,0.249,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0259_jpg.rf.3213e4f9241c38d31f1f928388a611c0.jpg,5;6,overlap,0.214,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0265_jpg.rf.3ec967174a36131086326641e058f5e8.jpg,4;13,overlap,0.158,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0325_jpg.rf.879d73e235769a4f88a56430bb239d55.jpg,1;9,overlap,0.179,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0420_jpg.rf.ee9118c8017a5781c0e217ea12c2a53e.jpg,5;7,overlap,0.277,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,0420_jpg.rf.ee9118c8017a5781c0e217ea12c2a53e.jpg,5;9,overlap,0.116,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1117_jpg.rf.f3c8b546e78aa971569b4ce70486bae9.jpg,3;13,overlap,0.137,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1117_jpg.rf.f3c8b546e78aa971569b4ce70486bae9.jpg,2;16,overlap,0.217,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1247_jpg.rf.88c4b885a233aaf7013b1416c3e6509f.jpg,1;13,overlap,0.13,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1770_jpg.rf.64ffa40647e136f6e38477fee386dd53.jpg,16;17,overlap,0.308,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1770_jpg.rf.64ffa40647e136f6e38477fee386dd53.jpg,19;20,overlap,0.418,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1874_jpg.rf.536e92ee638e58e0e53eda696887f6ea.jpg,1;4,overlap,0.204,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1874_jpg.rf.536e92ee638e58e0e53eda696887f6ea.jpg,13;14,overlap,0.244,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1874_jpg.rf.536e92ee638e58e0e53eda696887f6ea.jpg,14;15,overlap,0.115,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1874_jpg.rf.536e92ee638e58e0e53eda696887f6ea.jpg,17;18,overlap,0.413,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1874_jpg.rf.536e92ee638e58e0e53eda696887f6ea.jpg,21;22,overlap,0.127,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,1925_jpg.rf.3a09db1e67d13e9ce16c54214aa89323.jpg,14;20,overlap,0.116,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2028_jpg.rf.9c7b238d18cb78b849da6a93e07df666.jpg,4;8,overlap,0.111,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2057_jpg.rf.0b99159fdc7b8bb08f91002d352c9dad.jpg,5;6,overlap,0.111,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2057_jpg.rf.0b99159fdc7b8bb08f91002d352c9dad.jpg,7;8,overlap,0.19,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2101_jpg.rf.d5ed7fe98b07543c003c9df72f4969c2.jpg,6;7,overlap,0.228,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2118_jpg.rf.9fdd5674723c968ae409e45640448017.jpg,2;3,overlap,0.189,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2118_jpg.rf.9fdd5674723c968ae409e45640448017.jpg,6;7,overlap,0.421,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2157_jpg.rf.413803a9645c891f3a687d91936edbf7.jpg,5;9,overlap,0.359,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2260_jpg.rf.388ba901ccf0754594ac5dd49551bba0.jpg,4;5,overlap,0.289,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2333_jpg.rf.76c06f62ae0cd5d08c283fe9021780f1.jpg,2;3,overlap,0.142,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2333_jpg.rf.76c06f62ae0cd5d08c283fe9021780f1.jpg,3;4,overlap,0.416,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2360_jpg.rf.68f2d10d5e558d50f6887e329d26d6a4.jpg,2;13,overlap,0.225,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2551_jpg.rf.88699aae88195b76df409094170024b8.jpg,8;10,overlap,0.308,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2562_jpg.rf.d70716986a2e13eb36a8ea3c601925f3.jpg,16;17,overlap,0.268,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2562_jpg.rf.d70716986a2e13eb36a8ea3c601925f3.jpg,17;18,overlap,0.103,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2562_jpg.rf.d70716986a2e13eb36a8ea3c601925f3.jpg,20;21,overlap,0.171,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2574_jpg.rf.eb7fae4698e718f6c996f2888b0c80db.jpg,5;10,overlap,0.407,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2593_jpg.rf.0314aeeb25b0edb06c195a5494a91d0a.jpg,1;4,overlap,0.21,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2593_jpg.rf.0314aeeb25b0edb06c195a5494a91d0a.jpg,7;10,overlap,0.413,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2593_jpg.rf.0314aeeb25b0edb06c195a5494a91d0a.jpg,17;18,overlap,0.113,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2621_jpg.rf.f85ef1fa3fe0397168a19e3cb9faa293.jpg,1;2,overlap,0.109,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2621_jpg.rf.f85ef1fa3fe0397168a19e3cb9faa293.jpg,4;5,overlap,0.633,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2621_jpg.rf.f85ef1fa3fe0397168a19e3cb9faa293.jpg,7;8,overlap,0.114,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2621_jpg.rf.f85ef1fa3fe0397168a19e3cb9faa293.jpg,8;9,overlap,0.286,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2638_jpg.rf.23f628483c781e6226a8a3f6d76a1307.jpg,1;3,overlap,0.305,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2638_jpg.rf.23f628483c781e6226a8a3f6d76a1307.jpg,1;8,overlap,0.551,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2638_jpg.rf.23f628483c781e6226a8a3f6d76a1307.jpg,10;12,overlap,0.228,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2724_jpg.rf.33205777c227190ee607f446d85037f1.jpg,2;3,overlap,0.581,occlusion_error_confirmed,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2724_jpg.rf.33205777c227190ee607f446d85037f1.jpg,4;6,overlap,0.159,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2724_jpg.rf.33205777c227190ee607f446d85037f1.jpg,7;8,overlap,0.169,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2813_jpg.rf.d453f019387904433c15f2b3c48f2545.jpg,7;8,overlap,0.107,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2813_jpg.rf.d453f019387904433c15f2b3c48f2545.jpg,13;14,overlap,0.283,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2831_jpg.rf.bf5c43f7eac5ce69b6d0c889739f4260.jpg,5;6,overlap,0.104,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,2914_jpg.rf.fc8e063559f16e9b49e14f5a7fda9e57.jpg,18;19,overlap,0.295,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,3161_jpg.rf.1cc69f3ccaaef6f63c8d8b3dbfded3e0.jpg,11;13,overlap,0.218,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,3161_jpg.rf.1cc69f3ccaaef6f63c8d8b3dbfded3e0.jpg,12;13,overlap,0.233,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,3163_jpg.rf.0ff7db81204b567851d10fe92b71c1cc.jpg,6;7,overlap,0.113,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering
+pov_med,3163_jpg.rf.0ff7db81204b567851d10fe92b71c1cc.jpg,13;14,overlap,0.169,not_inspected,Keep only visible area of rear object; review both contours and foreground ordering

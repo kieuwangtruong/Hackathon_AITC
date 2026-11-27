@@ -26,6 +26,7 @@ Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hìn
 - [docs/dataset_plan.md](docs/dataset_plan.md): cách chia val, dữ liệu công khai.
 - [colab/README.md](colab/README.md): cách dùng notebook chung.
 - [guide.md](guide.md) hướng dẫn chấm validation sau khi train.
+- [Rà soát nhãn 28/11/2026](docs/label-audit-2026-11-28.md): kiểm tra 150 ảnh, danh sách mask cần QA và hạn chế của tập validation.
 
 ## Công cụ
 

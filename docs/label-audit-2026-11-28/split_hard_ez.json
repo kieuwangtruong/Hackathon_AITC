@@ -1,0 +1,61 @@
+{
+  "seed": 48,
+  "val_frac_target": 0.2,
+  "splits": {
+    "train": {
+      "images": 80,
+      "groups": 28,
+      "conditions": {
+        "day": 80
+      },
+      "instances": {
+        "Car": 107,
+        "Bus": 16,
+        "Truck": 14,
+        "Other vehicle": 14,
+        "Motorcycle": 15,
+        "Motorcyclist": 369,
+        "Bicycle": 2,
+        "Cyclist": 1,
+        "Pedestrian": 29,
+        "Sign": 169,
+        "Traffic light": 51
+      }
+    },
+    "val": {
+      "images": 20,
+      "groups": 13,
+      "conditions": {
+        "day": 20
+      },
+      "instances": {
+        "Car": 24,
+        "Bus": 5,
+        "Truck": 1,
+        "Other vehicle": 2,
+        "Motorcycle": 5,
+        "Motorcyclist": 56,
+        "Bicycle": 1,
+        "Cyclist": 0,
+        "Pedestrian": 11,
+        "Sign": 30,
+        "Traffic light": 8
+      }
+    }
+  },
+  "val_groups": [
+    "pov_g02",
+    "pov_g03",
+    "pov_g06",
+    "pov_g10",
+    "pov_g12",
+    "pov_g14",
+    "pov_g19",
+    "pov_g24",
+    "pov_g25",
+    "pov_g27",
+    "pov_g32",
+    "pov_g34",
+    "pov_g39"
+  ]
+}
