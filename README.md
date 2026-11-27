@@ -1,5 +1,9 @@
 # Hackathon_AITC
 
+## Google Colab
+
+Notebook dùng chung có thể tải code mới nhất từ nhánh `main` mỗi khi chạy. Xem [hướng dẫn sử dụng](colab/README.md) hoặc [mở notebook trong Colab](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb).
+
 ## Huấn luyện baseline (yolo26n-seg, imgsz=640)
 
 Mô hình và kích thước ảnh do BTC cố định, nên các script chỉ cho đổi dữ liệu và công thức huấn luyện. Dữ liệu, `runs/`, trọng số và file `.onnx` đều nằm trong `.gitignore` vì CI đóng gói mọi file được Git theo dõi.
