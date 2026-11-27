@@ -26,6 +26,7 @@ def main():
     ap.add_argument('--work', default='/content/round_work')
     ap.add_argument('--vn-repeat', type=int, default=3)
     ap.add_argument('--quota', default='{}', help='COCO quota overrides, JSON')
+    ap.add_argument('--vn-boost', default='{}', help='extra repeats for VN train images holding a class, JSON {"class_id": extra}')
     ap.add_argument('--no-coco', action='store_true')
     ap.add_argument('--coco-val', type=int, default=0, help='COCO images moved to val (bigger val = steadier best.pt pick)')
     ap.add_argument('--coco-val-list', help='file of COCO keys (train2017/x.jpg) that form val; overrides --coco-val')
@@ -40,12 +41,16 @@ def main():
     for s in ('train', 'val'):
         (ds / 'images' / s).mkdir(parents=True); (ds / 'labels' / s).mkdir(parents=True)
     n = {'train': 0, 'val': 0}
+    boost = {str(k): int(v) for k, v in json.loads(a.vn_boost).items()}
     for img, lab in vn_pairs():
         split = 'val' if img.name in val else 'train'
         im = cv2.imread(str(img))
         if not a.no_unsquash and im.shape[0] == im.shape[1]:
             im = cv2.resize(im, (im.shape[1], im.shape[1] * 9 // 16), interpolation=cv2.INTER_AREA)
         reps = 1 if split == 'val' else a.vn_repeat
+        if split == 'train' and boost:
+            cls = {l.split()[0] for l in lab.read_text().splitlines() if l.strip()}
+            reps += max([boost.get(c, 0) for c in cls] or [0])
         for k in range(reps):
             stem = img.stem if reps == 1 else f'{img.stem}_x{k + 1}'
             cv2.imwrite(str(ds / 'images' / split / f'{stem}.jpg'), im, [cv2.IMWRITE_JPEG_QUALITY, 95])
