@@ -14,9 +14,14 @@ def iob(p, b):  # intersection / area of p (bboxes xywh)
     return max(0, x2-x1)*max(0, y2-y1) / max(1e-6, p[2]*p[3])
 
 def is_rider(p, b):
+    """Person p rides bike b (bboxes xywh): boxes overlap well, person sits above the wheels and is roughly centred on the bike."""
+    x1, y1 = max(p[0], b[0]), max(p[1], b[1]); x2 = min(p[0]+p[2], b[0]+b[2]); y2 = min(p[1]+p[3], b[1]+b[3])
+    inter = max(0, x2-x1) * max(0, y2-y1)
     px = p[0] + p[2]/2
-    return (iob(p, b) >= 0.15 and b[0] - 0.1*b[2] <= px <= b[0] + 1.1*b[2]
-            and p[1] < b[1] + 0.3*b[3] and p[1] + p[3] > b[1] + 0.25*b[3])
+    return (inter >= 0.25 * min(p[2]*p[3], b[2]*b[3])
+            and b[0] - 0.3*b[2] <= px <= b[0] + 1.3*b[2]
+            and p[1] < b[1] + 0.3*b[3] and p[1] + p[3] > b[1] + 0.2*b[3])
+
 
 def mask_to_poly(m, min_area, eps=1.0, merge=True):
     m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
@@ -51,8 +56,9 @@ for k in sorted(ch):
     owner = {}
     for i, k_ in enumerate(cls):
         if k_ != 8: continue
-        best = max(bikes, key=lambda b: iob(anns[i]['bbox'], anns[b]['bbox']), default=None)
-        if best is not None and is_rider(anns[i]['bbox'], anns[best]['bbox']): owner[i] = best
+        cands = [b for b in bikes if is_rider(anns[i]['bbox'], anns[b]['bbox'])]
+        best = max(cands, key=lambda b: iob(anns[i]['bbox'], anns[b]['bbox']) + iob(anns[b]['bbox'], anns[i]['bbox']), default=None)
+        if best is not None: owner[i] = best
     insts = []  # (cls, mask)
     for b in bikes:
         riders = [i for i, o in owner.items() if o == b]
