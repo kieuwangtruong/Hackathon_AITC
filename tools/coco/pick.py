@@ -1,4 +1,4 @@
-import json, random
+import json, os, random
 c = json.load(open('coco/cands.json'))
 random.seed(48)
 keys = sorted(c); random.shuffle(keys)
@@ -9,6 +9,9 @@ quota = [('moto', 320, lambda k: g(k,'motorcycle') and street(k)),
          ('ped', 220, lambda k: g(k,'person') >= 2 and street(k) and (g(k,'traffic light') or g(k,'car')>=2)),
          ('tl', 120, lambda k: g(k,'traffic light') >= 2),
          ('stop', 60, lambda k: g(k,'stop sign') and street(k))]
+# QUOTA='{"moto":320,...}' overrides the counts above
+over = json.loads(os.environ.get('QUOTA', '{}'))
+quota = [(n, over.get(n, q), f) for n, q, f in quota]
 chosen = {}
 for name, n, f in quota:
     got = 0
