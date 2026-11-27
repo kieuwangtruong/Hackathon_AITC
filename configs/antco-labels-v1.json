@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "task": "instance_segmentation",
+  "annotation_format": "yolo-seg",
+  "classes": [
+    {
+      "id": 0,
+      "name": "Car",
+      "name_vi": "Ô tô con",
+      "description_vi": "Sedan, hatchback, SUV, minivan, bán tải, taxi, xe điện du lịch, xe cứu thương dạng van và xe du lịch 9–15 chỗ."
+    },
+    {
+      "id": 1,
+      "name": "Bus",
+      "name_vi": "Xe buýt / xe khách",
+      "description_vi": "Xe buýt và xe khách từ 16 chỗ trở lên."
+    },
+    {
+      "id": 2,
+      "name": "Truck",
+      "name_vi": "Xe tải",
+      "description_vi": "Xe tải, xe ben, xe bồn, xe cứu hỏa và đầu kéo. Với tổ hợp đầu kéo và rơ-moóc, lớp này chỉ phủ cabin và thân đầu kéo."
+    },
+    {
+      "id": 3,
+      "name": "Other vehicle",
+      "name_vi": "Phương tiện khác",
+      "description_vi": "Xe ba gác máy, xích lô, xe lam, xe công trình, xe máy cày, rơ-moóc, sơ-mi rơ-moóc và các phương tiện giao thông chưa có lớp riêng."
+    },
+    {
+      "id": 4,
+      "name": "Motorcycle",
+      "name_vi": "Xe máy (không người)",
+      "description_vi": "Xe máy, xe tay ga hoặc xe điện hai bánh kiểu xe máy không có người ngồi, gồm xe đang đỗ và xe đang được dắt."
+    },
+    {
+      "id": 5,
+      "name": "Motorcyclist",
+      "name_vi": "Xe máy (có người)",
+      "description_vi": "Một instance gồm xe máy và tất cả người đang ngồi trên xe, kể cả khi xe đứng yên."
+    },
+    {
+      "id": 6,
+      "name": "Bicycle",
+      "name_vi": "Xe đạp (không người)",
+      "description_vi": "Xe đạp hoặc xe đạp điện kiểu xe đạp không có người trên xe, gồm xe đang đỗ và xe đang được dắt."
+    },
+    {
+      "id": 7,
+      "name": "Cyclist",
+      "name_vi": "Xe đạp (có người)",
+      "description_vi": "Một instance gồm xe đạp và người đang đi trên xe."
+    },
+    {
+      "id": 8,
+      "name": "Pedestrian",
+      "name_vi": "Người đi bộ",
+      "description_vi": "Người đi, chạy, đứng hoặc ngồi ngoài phương tiện, gồm trẻ em và người đang dắt xe."
+    },
+    {
+      "id": 9,
+      "name": "Sign",
+      "name_vi": "Biển báo",
+      "description_vi": "Một tấm biển báo giao thông, biển chỉ dẫn hoặc biển tạm công trường. Mask phủ phần tấm biển nhìn thấy và dừng ở mép biển."
+    },
+    {
+      "id": 10,
+      "name": "Traffic light",
+      "name_vi": "Đèn giao thông",
+      "description_vi": "Một hộp đèn tín hiệu cho xe hoặc người đi bộ. Mask phủ toàn bộ phần hộp nhìn thấy, gồm khung và các bóng."
+    }
+  ],
+  "image_tags": {
+    "time_of_day": [
+      { "value": "day", "name_vi": "Ban ngày" },
+      { "value": "dawn", "name_vi": "Bình minh" },
+      { "value": "dusk", "name_vi": "Hoàng hôn" },
+      { "value": "night", "name_vi": "Ban đêm" },
+      { "value": "unknown", "name_vi": "Chưa xác định" }
+    ]
+  }
+}
