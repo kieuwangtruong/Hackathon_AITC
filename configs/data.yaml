@@ -1,0 +1,16 @@
+# Competition class list (fixed ids, do not reorder). Paths are filled in by tools/split_dataset.py.
+path: .
+train: splits/train.txt
+val: splits/val.txt
+names:
+  0: Car            # sedan, SUV, minivan, 7-seat, pickup, taxi, electric tourist cart, van ambulance; 9-15 seat vans
+  1: Bus            # bus / coach with 16+ seats
+  2: Truck          # all trucks, tankers, fire trucks; tractor unit = cabin + tractor body only
+  3: Other vehicle  # ba gac, xich lo, xe lam, construction, xe may cay, trailers/semi-trailers, anything else
+  4: Motorcycle     # motorbike / scooter / e-scooter with nobody seated (parked or being walked)
+  5: Motorcyclist   # ONE instance covering the bike + every person on it
+  6: Bicycle        # bicycle / e-bicycle with nobody on it
+  7: Cyclist        # ONE instance covering the bicycle + rider
+  8: Pedestrian     # anyone not seated on a vehicle, incl. people walking a bike
+  9: Sign           # sign face only, never the pole
+  10: Traffic light # whole housing (vehicle or pedestrian), not just the lit bulb

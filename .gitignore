@@ -1,0 +1,9 @@
+# Datasets, weights and exports stay out of git (CI zips every tracked file).
+datasets/
+data/
+splits/
+runs/
+*.pt
+*.onnx
+*.zip
+__pycache__/
