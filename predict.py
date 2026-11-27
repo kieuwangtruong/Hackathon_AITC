@@ -1,12 +1,6 @@
-"""Run a trained model on images or a folder and save masks and YOLO-seg labels.
+"""Chạy model trên ảnh, lưu ảnh có mask và nhãn YOLO-seg để làm nhãn nháp.
 
-Outputs go to runs/predict/<name>/: images with drawn masks, and labels/*.txt in
-the same YOLO-seg polygon format as the training data. The .txt files can be
-loaded into a labeling tool as pre-labels for people to fix.
-
-Example:
-    python predict.py --model runs/segment/baseline/weights/best.pt --source path/to/images
-    python predict.py --model submission/model.onnx --source img.jpg --conf 0.4
+    python predict.py --model runs/segment/baseline/weights/best.pt --source anh/
 """
 
 from __future__ import annotations

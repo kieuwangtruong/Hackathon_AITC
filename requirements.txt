@@ -1,5 +1,4 @@
-# Same versions as the organizers' notebook (PINNED_PACKAGES in colab/shared.ipynb).
-# Do not change: the grader expects models exported with these.
+# Cùng phiên bản với notebook chính thức của BTC. Không đổi.
 ultralytics==8.4.214
 onnx==1.23.2
 onnxslim==0.1.99

@@ -1,12 +1,7 @@
-"""Train the fixed competition model (yolo26n-seg, imgsz=640) on our dataset.
+"""Train nhanh trên máy: yolo26n-seg, imgsz 640, seed 48.
 
-The model and image size are set by the competition; only the data and the
-training recipe are ours to change. Every run uses a fixed seed and
-deterministic mode so two runs on the same data should give close scores.
-
-Example:
-    python train.py --data datasets/robotaxi/data.yaml --epochs 100 --batch 16
-    python train.py --data datasets/robotaxi/data.yaml --hyp configs/hyp.yaml --name heavy_aug
+    python train.py --data splits/v1/data.yaml --epochs 100
+    python train.py --data splits/v1/data.yaml --hyp configs/hyp.yaml --name aug
 """
 
 from __future__ import annotations

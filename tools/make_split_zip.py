@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-"""Pack a split from tools/split_dataset.py into a zip the official notebook accepts.
+"""Đóng zip images/{train,val} + labels/{train,val} từ kết quả split_dataset.py.
 
-The official notebook (colab/shared.ipynb) uses a pre-made split as is when the
-zip holds images/train, images/val, labels/train and labels/val. Without that it
-shuffles images randomly by seed, which leaks frames of the same video into val.
+Notebook chính thức sẽ giữ nguyên cách chia này thay vì chia ngẫu nhiên.
 
-Usage:
-    python tools/make_split_zip.py --split splits/v1 --out du_lieu_v1.zip
-Then upload the zip to Drive and set DATASET_PATH in the notebook to it.
+    python tools/make_split_zip.py --split splits/v1 --out du_lieu.zip
 """
 import argparse
 import pathlib

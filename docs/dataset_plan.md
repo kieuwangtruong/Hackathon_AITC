@@ -1,76 +1,42 @@
 # Kế hoạch dữ liệu
 
-Mục **(đoán)** là giả định của nhóm, chưa được BTC xác nhận.
+Cách gán nhãn: xem [hướng dẫn gán nhãn](labeling-guideline-v1.md). Mục **(đoán)** là giả định chưa được BTC xác nhận.
 
-## 1. Gán nhãn 11 lớp (id cố định)
+## Chia train/val
 
-| id | Lớp | Gồm | Lưu ý |
-|---|---|---|---|
-| 0 | Car | sedan, SUV, 7 chỗ, bán tải, taxi, van, xe 9-15 chỗ | |
-| 1 | Bus | xe buýt, xe khách từ 16 chỗ | |
-| 2 | Truck | mọi loại xe tải, xe bồn, cứu hỏa | đầu kéo: chỉ cabin + thân đầu kéo, rơ-moóc là lớp 3 |
-| 3 | Other vehicle | ba gác, xích lô, xe lam, xe công trình, máy cày, rơ-moóc | |
-| 4 | Motorcycle | xe máy **không người ngồi** (đỗ, dắt) | |
-| 5 | Motorcyclist | **một** mask gồm xe + mọi người + hàng trên xe | không tách người thành Pedestrian |
-| 6 | Bicycle | xe đạp không người | |
-| 7 | Cyclist | **một** mask gồm xe đạp + người | |
-| 8 | Pedestrian | mọi người không ngồi trên xe, kể cả người dắt xe | người dắt xe = Pedestrian + Motorcycle/Bicycle |
-| 9 | Sign | phần tấm biển nhìn thấy, kể cả mặt sau nếu nhận diện được | bỏ cột và giá đỡ |
-| 10 | Traffic light | **cả hộp đèn** | không chỉ bóng đang sáng |
-
-Quy ước chính thức của BTC:
-- Mask chỉ phủ phần nhìn thấy và **không chồng nhau**: vật phía trước giữ pixel, vật phía sau chỉ phủ phần còn lại.
-- Vật bị cột hoặc dây che thành nhiều mảnh vẫn là **một** instance.
-- Không phủ bóng đổ, phản chiếu, ánh đèn pha.
-- Đầu kéo là Truck, rơ-moóc/container là Other vehicle: hai instance riêng.
-- Xe đạp điện không bàn đạp (kiểu xe máy điện) là Motorcycle/Motorcyclist.
-- Không gán: vật sau kính cửa hàng, người trong ô tô nhìn qua kính, áp phích, biển quảng cáo/cửa hàng, động vật, xe đẩy tay, đèn xe, đèn trang trí, vật có cạnh ngắn dưới khoảng 1,25% cạnh dài của ảnh.
-- Phân vân xe 4 bánh: dưới khoảng 9 chỗ là Car, kiểu xe buýt là Bus, xe tải/đầu kéo là Truck, còn lại là Other vehicle.
-- Ảnh không có vật nào: để file `.txt` rỗng. Không dán hình chữ nhật thay cho đa giác.
-
-Hướng dẫn đầy đủ: [labeling_guideline.md](https://competition.antco.ai/data/labeling_guideline.md).
-
-## 2. Chia train/val
-
-- Val **chỉ có ảnh Việt Nam**. Dữ liệu nước ngoài chỉ đưa vào train (`--force-train`).
-- Tách **theo nhóm** (camera, video, địa điểm), không tách từng frame. Frame cùng video gần như giống hệt nhau.
-- Nhắm khoảng 20% ảnh validation theo `time_of_day` khi có đủ nhóm quay. Nên có 300-600 ảnh val từ ít nhất 8-10 nhóm **(đoán)**.
-- **Giữ nguyên tập val** giữa các vòng để điểm so sánh được. Dữ liệu mới thì cho vào train.
+- Val **chỉ có ảnh Việt Nam**. Dữ liệu nước ngoài chỉ cho vào train (`--force-train`).
+- Tách **theo camera/video**, không tách từng frame, để val không có ảnh gần giống train.
+- Khoảng 20% ảnh vào val, cân bằng ngày/đêm. Nên có 300-600 ảnh val từ 8-10 nhóm trở lên **(đoán)**.
+- **Giữ nguyên tập val** giữa các vòng để điểm so sánh được. Dữ liệu mới chỉ cho vào train.
 
 ```bash
 python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels \
     --meta datasets/v1/meta.csv --out splits/v1 --force-train mapillary,idd,bdd,coco
+python tools/make_split_zip.py --split splits/v1 --out du_lieu.zip
 ```
 
-Dùng `file,group,time_of_day,source` theo [mẫu `meta.csv`](labeling-guideline-v1.md#tag-thời-điểm-theo-ảnh). Tra lớp và tag trong [danh mục JSON](../configs/antco-labels-v1.json). Chọn `unknown` nếu khó xác định thời điểm. Khi thiếu metadata, script suy ra nhóm từ tên tệp và ngày hoặc đêm từ độ sáng.
+Không có `meta.csv` thì script đoán nhóm theo tên file và đoán ngày/đêm theo độ sáng.
 
-## 3. Dữ liệu công khai
+## Dữ liệu công khai
 
-Kiểm tra giấy phép trên trang chính thức trước khi dùng, và ghi vào báo cáo: tên, link, giấy phép, số ảnh, ánh xạ lớp.
+Kiểm tra giấy phép trên trang gốc trước khi dùng.
 
-| Bộ | Giấy phép (cần xác nhận) | Vì sao dùng |
+| Bộ | Giấy phép (cần xác nhận) | Dùng để |
 |---|---|---|
-| [Mapillary Vistas v2](https://www.mapillary.com/dataset/vistas) | CC BY-NC-SA 4.0 | Có mask mặt biển và hộp đèn |
-| [IDD Segmentation](https://idd.insaan.iiit.ac.in) | Nghiên cứu | Đường Ấn Độ, nhiều xe hai bánh, gần VN nhất |
-| [BDD100K](https://bdd-data.berkeley.edu) | Nghiên cứu | Cảnh đêm, mưa |
-| [COCO 2017](https://cocodataset.org) | CC BY 4.0 (nhãn) | Nhiều người và xe máy |
-| [Zalo AI 2020 Traffic Sign](https://datasetninja.com/zalo-traffic-sign) | Chưa rõ | Biển báo VN có box để tạo mask nháp với SAM 3 |
-| [VN Vehicle Tracking](https://zenodo.org/records/18195750) | CC BY 4.0 | Mật độ xe máy VN thật (chỉ có box) |
+| [Mapillary Vistas v2](https://www.mapillary.com/dataset/vistas) | CC BY-NC-SA 4.0 | mask biển báo, hộp đèn |
+| [IDD Segmentation](https://idd.insaan.iiit.ac.in) | nghiên cứu | đường đông xe hai bánh, gần VN nhất |
+| [BDD100K](https://bdd-data.berkeley.edu) | nghiên cứu | cảnh đêm, mưa |
+| [COCO 2017](https://cocodataset.org) | CC BY 4.0 (nhãn) | người, xe máy |
+| [Zalo AI 2020 Traffic Sign](https://datasetninja.com/zalo-traffic-sign) | chưa rõ | biển báo VN (chỉ có box, dùng SAM 3 tạo mask) |
+| [VN Vehicle Tracking](https://zenodo.org/records/18195750) | CC BY 4.0 | mật độ xe máy VN (chỉ có box) |
 
-Ghép đúng người đang ngồi với xe tương ứng trước khi gán `5` hoặc `7`. Xe không người dùng `4` hoặc `6`. Người dắt xe có mask `8` riêng. Ưu tiên tự gán thêm ba gác và xe lam trong ảnh Việt Nam.
+Xe nước ngoài trông khác xe VN và không có ba gác, xe lam. Thêm từng phần, chỉ giữ phần làm tăng điểm val.
 
-Rủi ro: xe ở nước ngoài trông khác xe VN. Thêm từng phần và chỉ giữ lại phần làm tăng điểm val VN.
+## Ưu tiên
 
-## 4. Gán nhãn nháp bằng SAM 3 rồi duyệt tay
+Cảnh khó (đêm, mưa, đông xe máy, bị che, chói sáng) và lớp hiếm (ba gác, xích lô, xe lam, xe công trình, xe đạp).
 
-1. Gán thử một lô chung theo [guideline v1](labeling-guideline-v1.md#phối-hợp-thu-thập-và-gán-nhãn-bằng-sam-3), rồi chia các lô thu thập theo nguồn quay. Chọn các khung khác nhau từ mỗi video.
-2. Tạo mask nháp bằng SAM 3, sau đó duyệt lớp, đường viền, cặp người–xe và vật thể bị bỏ sót.
-3. Xuất YOLO-seg, chạy `check_labels.py` và dùng lỗi trên tập val để chọn lô tiếp theo.
+## Còn cần hỏi BTC
 
-Ưu tiên cảnh khó: đêm, mưa, đông xe máy, bị che, chói sáng, và lớp hiếm (ba gác, xích lô, xe lam, xe công trình, xe đạp).
-
-## 5. Còn cần hỏi BTC
-
-- BTC có cho dữ liệu train không, có kèm thông tin camera/thời gian không?
 - Có được dùng bộ dữ liệu giấy phép nghiên cứu (Vistas, IDD, BDD) không?
-- Tập private quay từ dashcam, camera giao thông hay cả hai?
+- Tập test quay từ dashcam, camera giao thông hay cả hai?

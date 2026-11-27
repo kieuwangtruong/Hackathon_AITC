@@ -1,14 +1,7 @@
-"""Export trained weights to the submission format: a zip with one model.onnx.
+"""Xuất ONNX và đóng zip để thử nhanh, cùng tham số với BTC.
 
-Rules: fp32, imgsz=640, ONNX of yolo26n-seg, zip at most 42 MB holding exactly
-one file named model.onnx.
+Bản nộp thật phải tạo bằng Bước 4 của notebook chính thức (colab/shared.ipynb).
 
-This mirrors the organizers' EXPORT_CONTRACT (opset 17, simplify, static batch 1,
-fp32, nms left unset). It is for quick local checks only: the zip we actually
-submit must come from step 4 of the official notebook (colab/shared.ipynb),
-which also runs the grader's own checks.
-
-Example:
     python export.py --weights runs/segment/baseline/weights/best.pt
 """
 
