@@ -1,7 +1,8 @@
-# Pinned so every teammate trains and exports with the same code.
-# yolo26 weights need ultralytics >= 8.4.0. If the official sample notebook
-# pins a different version, switch to that one so our model.onnx matches theirs.
-ultralytics==8.4.220
-onnx>=1.17
-onnxslim>=0.1.71
-onnxruntime>=1.20
+# Same versions as the organizers' notebook (PINNED_PACKAGES in colab/shared.ipynb).
+# Do not change: the grader expects models exported with these.
+ultralytics==8.4.214
+onnx==1.23.2
+onnxslim==0.1.99
+onnxruntime==1.32.0
+pycocotools
+pyyaml  # needed by the organizers' self-check

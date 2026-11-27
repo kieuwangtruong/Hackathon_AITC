@@ -4,22 +4,20 @@ Cuộc thi RoboTaxi data-centric: mô hình cố định `yolo26n-seg`, `imgsz=6
 
 - **Hạn nộp: 10:30 ngày 28/11.** Bảng private công bố 11:00, thuyết trình từ 11:30. Hàng đợi chấm chạy lần lượt, nên đừng nộp sát giờ.
 - **TEAM_ID (seed) của đội: 48.** Điểm = 100 × mask mAP@[.5:.95].
-- Bài nộp chính thức phải tạo bằng **notebook mẫu của BTC** (bước 3: xuất ONNX, kiểm tra, đóng zip). Giữ lại notebook, dữ liệu và `run_report.json`.
+- Bài nộp chính thức phải tạo bằng **notebook mẫu của BTC** (Bước 4: xuất ONNX, kiểm tra, đóng zip). Giữ lại notebook, dữ liệu và `run_report.json`.
 
 ## Bắt đầu nhanh
 
-**Trên Colab (khuyên dùng):** mở [notebook dùng chung](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb), chọn GPU, rồi chạy lần lượt các ô. Xem [colab/README.md](colab/README.md).
-
-**Trên máy:**
-
-```bash
-pip install -r requirements.txt
-python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
-python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
-python train.py --data splits/v1/data.yaml --epochs 100
-python export.py --weights runs/segment/baseline/weights/best.pt       # -> submission/*.zip
-python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
-```
+1. Gán nhãn, rồi kiểm tra và chia train/val theo camera:
+   ```bash
+   pip install -r requirements.txt
+   python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
+   python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
+   python tools/make_split_zip.py --split splits/v1 --out du_lieu.zip
+   ```
+2. Tải `du_lieu.zip` lên Drive: `MyDrive/Hackathon_AITC/datasets/du_lieu.zip`.
+3. Mở [notebook chính thức của đội](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb) (đã điền TEAM_ID 48), chọn GPU T4, **Run all**.
+4. Nộp `submission.zip` trong `MyDrive/Hackathon_AITC/ket_qua/`. Giữ lại `run_report.json`.
 
 ## Trong repo có gì
 
@@ -27,9 +25,10 @@ python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
 | --- | --- |
 | `tools/check_labels.py` | Kiểm tra nhãn đúng định dạng YOLO-seg |
 | `tools/split_dataset.py` | Chia train/val theo camera/địa điểm |
-| `train.py` | Train (thêm augmentation qua `--hyp configs/hyp.yaml`) |
-| `export.py` | Tạo file zip nộp bài (`model.onnx` fp32, tối đa 42 MB) |
-| `evaluate.py` | Chấm `.pt`/`.onnx` trên val trước khi tốn lượt nộp |
+| `tools/make_split_zip.py` | Đóng zip train/val để notebook chính thức dùng nguyên cách chia |
+| `train.py` | Train nhanh trên máy (thêm augmentation qua `--hyp configs/hyp.yaml`) |
+| `export.py` | Xuất ONNX để thử nhanh, cùng tham số với BTC |
+| `evaluate.py` | Chấm nhanh `.pt`/`.onnx` trên val |
 | `predict.py` | Tạo nhãn nháp từ model để người sửa lại |
 | `scripts/prepare_data.py` | Chia ngẫu nhiên nhanh (chỉ khi không có thông tin camera) |
 | [docs/dataset_plan.md](docs/dataset_plan.md) | Quy tắc gán nhãn, cách chia val, dữ liệu công khai |
