@@ -4,7 +4,7 @@ Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hìn
 
 - **Hạn nộp: 10:30 ngày 28/11.** Máy chấm xếp hàng, đừng nộp sát giờ.
 - **Đội 43. TEAM_ID (seed): 48.** Điểm = 100 × mask mAP@[.5:.95].
-- Bài nộp phải tạo bằng notebook chính thức. Giữ lại `run_report.json`.
+- Bài nộp phải tạo bằng notebook chính thức.
 
 ## Làm thế nào
 
@@ -25,6 +25,7 @@ Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hìn
 - [docs/labeling-guideline-v1.md](docs/labeling-guideline-v1.md): 11 lớp, quy tắc vẽ mask, ca dễ nhầm, quy trình SAM 3.
 - [docs/dataset_plan.md](docs/dataset_plan.md): cách chia val, dữ liệu công khai.
 - [colab/README.md](colab/README.md): cách dùng notebook chung.
+- [guide.md](guide.md) hướng dẫn chấm validation sau khi train.
 
 ## Công cụ
 
@@ -33,7 +34,7 @@ Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hìn
 | `tools/check_labels.py` | Kiểm tra nhãn |
 | `tools/split_dataset.py` | Chia train/val theo camera |
 | `tools/make_split_zip.py` | Đóng zip cho notebook |
-| `train.py`, `evaluate.py` | Train và chấm nhanh trên máy |
+| `train.py` | Huấn luyện trên máy |
 | `predict.py` | Tạo nhãn nháp từ model |
 | `export.py` | Xuất ONNX để thử (bản nộp thật dùng notebook) |
 
