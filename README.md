@@ -3,7 +3,7 @@
 Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hình cố định (`yolo26n-seg`, 640), đội chỉ cải thiện **dữ liệu**.
 
 - **Hạn nộp: 10:30 ngày 28/11.** Máy chấm xếp hàng, đừng nộp sát giờ.
-- **TEAM_ID (seed): 48.** Điểm = 100 × mask mAP@[.5:.95].
+- **Đội 43. TEAM_ID (seed): 48.** Điểm = 100 × mask mAP@[.5:.95].
 - Bài nộp phải tạo bằng notebook chính thức. Giữ lại `run_report.json`.
 
 ## Làm thế nào
