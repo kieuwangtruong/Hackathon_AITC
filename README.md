@@ -1,85 +1,49 @@
 # Hackathon_AITC
 
-## Google Colab
+Cuộc thi RoboTaxi data-centric: mô hình cố định `yolo26n-seg`, `imgsz=640`. Nhóm chỉ cải thiện **dữ liệu**.
 
-Notebook dùng chung có thể tải code mới nhất từ nhánh `main` mỗi khi chạy. Xem [hướng dẫn sử dụng](colab/README.md) hoặc [mở notebook trong Colab](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb).
+## Bắt đầu nhanh
 
-## Huấn luyện baseline (yolo26n-seg, imgsz=640)
+**Trên Colab (khuyên dùng):** mở [notebook dùng chung](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb), chọn GPU, rồi chạy lần lượt các ô. Xem [colab/README.md](colab/README.md).
 
-Mô hình và kích thước ảnh do BTC cố định, nên các script chỉ cho đổi dữ liệu và công thức huấn luyện. Dữ liệu, `runs/`, trọng số và file `.onnx` đều nằm trong `.gitignore` vì CI đóng gói mọi file được Git theo dõi.
-
-| File | Việc |
-| --- | --- |
-| [requirements.txt](requirements.txt) | Ghim `ultralytics==8.4.220` để cả nhóm train và export giống nhau. |
-| [configs/data.yaml](configs/data.yaml) | Mẫu data.yaml với 11 lớp cố định của BTC. |
-| [tools/check_labels.py](tools/check_labels.py), [tools/split_dataset.py](tools/split_dataset.py) | Kiểm tra nhãn và chia val theo camera/địa điểm (khuyên dùng, xem [docs/dataset_plan.md](docs/dataset_plan.md)). |
-| [scripts/prepare_data.py](scripts/prepare_data.py) | Cách nhanh: nhận một hoặc nhiều thư mục/zip dạng `images/` + `labels/`, kiểm tra nhãn, chia train/val ngẫu nhiên, in số instance mỗi lớp và ghi data.yaml. |
-| [train.py](train.py) | Train từ `yolo26n-seg.pt` pretrained, seed cố định, ghi `summary.json` với mask mAP từng lớp. |
-| [configs/hyp.yaml](configs/hyp.yaml) | Ví dụ tham số augmentation truyền qua `--hyp`. |
-| [export.py](export.py) | Xuất `model.onnx` fp32 640, kiểm tra bằng onnxruntime, đóng zip chỉ chứa `model.onnx` và chặn nếu quá 42 MB. |
-| [evaluate.py](evaluate.py) | Chấm `.pt` hoặc `.onnx` trên tập val của mình trước khi dùng lượt nộp. |
-| [predict.py](predict.py) | Chạy suy luận, lưu ảnh có mask và nhãn YOLO-seg để làm nhãn nháp. |
+**Trên máy:**
 
 ```bash
 pip install -r requirements.txt
-unzip du_lieu.zip -d datasets/v1
 python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
 python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
-python train.py --data splits/v1/data.yaml --epochs 100 --batch 16
-python export.py --weights runs/segment/baseline/weights/best.pt
+python train.py --data splits/v1/data.yaml --epochs 100
+python export.py --weights runs/segment/baseline/weights/best.pt       # -> submission/*.zip
 python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
 ```
 
-Lưu ý:
-- `export.py` đang dùng tham số mặc định của Ultralytics. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của notebook vào đây.
-- Điểm val nội bộ chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
-- `scripts/prepare_data.py` chia ngẫu nhiên. Nếu dữ liệu là các frame cắt từ cùng video, điểm val sẽ cao giả, nên dùng `tools/split_dataset.py`.
-- Mỗi bộ dữ liệu công khai đưa vào cần ghi lại tên, link, giấy phép, số ảnh và cách ánh xạ về 11 lớp cho báo cáo.
+## Trong repo có gì
 
-## CI/CD cho nhóm
-
-Workflow kiểm tra cấu hình GitHub Actions và lỗi khoảng trắng trong phần thay đổi, sau đó tạo và kiểm tra gói ZIP từ commit đang chạy. [Xem workflow](.github/workflows/ci-cd.yml)
-
-| Sự kiện | Kết quả |
+| File | Dùng để |
 | --- | --- |
-| Push lên nhánh làm việc như `feat/truong/demo-api` | Chạy CI trên commit của nhánh. |
-| Mở hoặc cập nhật pull request vào `main` | Chạy check **Validate pull request** trên kết quả merge thử. |
-| Push vào `main` | Chạy lại CI và lưu gói mã nguồn ở **Actions → Artifacts** trong lần chạy tương ứng. |
-| Push tag dạng `vX.Y.Z` | Kiểm tra commit thuộc lịch sử của `main`, chạy CI rồi phát hành gói ZIP và checksum ở **Releases**. |
+| `tools/check_labels.py` | Kiểm tra nhãn đúng định dạng YOLO-seg |
+| `tools/split_dataset.py` | Chia train/val theo camera/địa điểm |
+| `train.py` | Train (thêm augmentation qua `--hyp configs/hyp.yaml`) |
+| `export.py` | Tạo file zip nộp bài (`model.onnx` fp32, tối đa 42 MB) |
+| `evaluate.py` | Chấm `.pt`/`.onnx` trên val trước khi tốn lượt nộp |
+| `predict.py` | Tạo nhãn nháp từ model để người sửa lại |
+| `scripts/prepare_data.py` | Chia ngẫu nhiên nhanh (chỉ khi không có thông tin camera) |
+| [docs/dataset_plan.md](docs/dataset_plan.md) | Quy tắc gán nhãn, cách chia val, dữ liệu công khai |
 
-### Đẩy code lên nhánh riêng
+Không commit dữ liệu, `runs/`, `.pt`, `.onnx`, `.zip` (đã có trong `.gitignore`).
 
-Mỗi người tạo một nhánh từ `origin/main`. Đặt tên theo công việc, ví dụ `feat/truong/demo-api`.
+## Quy trình làm việc
 
-```bash
-git fetch origin
-git switch -c feat/truong/demo-api origin/main
-```
+1. Tạo nhánh từ `main`: `git switch -c feat/<tên>/<việc> origin/main`.
+2. Commit, `git push -u origin feat/<tên>/<việc>`, mở PR vào `main`.
+3. Đợi check **Validate pull request** xanh rồi merge. Notebook Colab tự cập nhật theo `main`.
 
-Sau khi commit các thay đổi trên nhánh riêng, push đúng tên nhánh để GitHub chạy CI.
+Chốt phiên bản: `git tag -a v0.1.0 -m "v0.1.0" origin/main && git push origin v0.1.0` (bản zip mã nguồn xuất hiện ở **Releases**).
 
-```bash
-git push -u origin feat/truong/demo-api
-```
+**Chủ repo cần làm một lần:** Settings → Rules → Rulesets → Import a ruleset → chọn [.github/rulesets/protect-main.json](.github/rulesets/protect-main.json). Sau đó không ai push thẳng vào `main` được.
 
-Khi sẵn sàng đưa code vào `main`, mở PR với nhánh đích là `main`, nhờ một thành viên review và đợi **Validate pull request** thành công. Nếu PR cần đồng bộ với `main`, dùng **Update branch** để chạy lại CI.
+## Lưu ý
 
-### Bảo vệ `main` trên GitHub
-
-1. Push nhánh chứa pipeline và mở PR vào `main` để GitHub ghi nhận check **Validate pull request**.
-2. Sau khi check chạy thành công, quản trị viên mở **Settings → Rules → Rulesets → New ruleset → Import a ruleset** và chọn [protect-main.json](.github/rulesets/protect-main.json).
-3. Xác nhận ruleset đang ở trạng thái **Active** và chỉ nhắm vào `main`, rồi lưu. GitHub sẽ yêu cầu PR và CI đạt trước khi merge vào `main`.
-
-### Chốt bản demo
-
-Sau khi CI trên `main` thành công, gắn tag vào commit đã chốt. Ví dụ dưới đây dùng commit mới nhất trên `origin/main`.
-
-```bash
-git fetch origin main
-git tag -a v0.1.0 -m "Hackathon v0.1.0" origin/main
-git push origin v0.1.0
-```
-
-Mở **Releases** để tải `Hackathon_AITC-source.zip` và `SHA256SUMS.txt`. Gói chỉ chứa file đã được Git theo dõi tại commit đó. Dùng tag mới cho mỗi phiên bản.
-
-Khi nhóm đưa ứng dụng vào repo, thêm bước cài dependency, lint và test trong job `ci` trước bước đóng gói. Hiện đích phát hành là GitHub Releases.
+- `export.py` đang dùng tham số mặc định. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của họ vào.
+- Điểm val chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
+- Mỗi bộ dữ liệu công khai đã dùng phải ghi vào báo cáo: tên, link, giấy phép, số ảnh, cách ánh xạ 11 lớp.
