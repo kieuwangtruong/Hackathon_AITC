@@ -1,9 +1,11 @@
 # Run inside colab/shared.ipynb right after the "Tham số của đội" cell:
-#   ROUND, PREV, BUILD_ARGS, EPOCHS_R = "v4", "v3", "--vn-repeat 5", 40
+#   ROUND = 'v4'   (settings for each round are in colab/rounds.json)
 #   !git -C /content/repo_r pull -q || git clone -q -b claude/project-thread-0ms80x https://github.com/kieuwangtruong/Hackathon_AITC /content/repo_r
 #   exec(open('/content/repo_r/colab/round_cell.py').read())
 # Archives the previous run's outputs to ket_qua/<PREV>, builds this round's zip, points the notebook at it.
-import os, shutil, subprocess, glob
+import os, shutil, subprocess, json
+_cfg = json.load(open('/content/repo_r/colab/rounds.json'))[ROUND]
+PREV, BUILD_ARGS, EPOCHS_R = _cfg['prev'], _cfg['args'], _cfg['epochs']
 from google.colab import drive
 drive.mount('/content/drive')
 _KQ = '/content/drive/MyDrive/Hackathon_AITC/ket_qua'
