@@ -6,7 +6,7 @@
  },
  "v5": {
   "prev": "v4",
-  "epochs": 50,
+  "epochs": 40,
   "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
  }
 }
