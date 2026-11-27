@@ -3,6 +3,7 @@
 # Datasets
 datasets/
 data/
+splits/
 *.zip
 
 # Training and inference outputs

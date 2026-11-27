@@ -12,7 +12,8 @@ Mô hình và kích thước ảnh do BTC cố định, nên các script chỉ c
 | --- | --- |
 | [requirements.txt](requirements.txt) | Ghim `ultralytics==8.4.220` để cả nhóm train và export giống nhau. |
 | [configs/data.yaml](configs/data.yaml) | Mẫu data.yaml với 11 lớp cố định của BTC. |
-| [scripts/prepare_data.py](scripts/prepare_data.py) | Nhận một hoặc nhiều thư mục/zip dạng `images/` + `labels/`, kiểm tra nhãn, chia train/val với seed cố định, in số instance mỗi lớp và ghi data.yaml. |
+| [tools/check_labels.py](tools/check_labels.py), [tools/split_dataset.py](tools/split_dataset.py) | Kiểm tra nhãn và chia val theo camera/địa điểm (khuyên dùng, xem [docs/dataset_plan.md](docs/dataset_plan.md)). |
+| [scripts/prepare_data.py](scripts/prepare_data.py) | Cách nhanh: nhận một hoặc nhiều thư mục/zip dạng `images/` + `labels/`, kiểm tra nhãn, chia train/val ngẫu nhiên, in số instance mỗi lớp và ghi data.yaml. |
 | [train.py](train.py) | Train từ `yolo26n-seg.pt` pretrained, seed cố định, ghi `summary.json` với mask mAP từng lớp. |
 | [configs/hyp.yaml](configs/hyp.yaml) | Ví dụ tham số augmentation truyền qua `--hyp`. |
 | [export.py](export.py) | Xuất `model.onnx` fp32 640, kiểm tra bằng onnxruntime, đóng zip chỉ chứa `model.onnx` và chặn nếu quá 42 MB. |
@@ -21,16 +22,18 @@ Mô hình và kích thước ảnh do BTC cố định, nên các script chỉ c
 
 ```bash
 pip install -r requirements.txt
-python scripts/prepare_data.py --src du_lieu.zip --out datasets/robotaxi
-python train.py --data datasets/robotaxi/data.yaml --epochs 100 --batch 16
+unzip du_lieu.zip -d datasets/v1
+python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
+python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
+python train.py --data splits/v1/data.yaml --epochs 100 --batch 16
 python export.py --weights runs/segment/baseline/weights/best.pt
-python evaluate.py --model submission/model.onnx --data datasets/robotaxi/data.yaml
+python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
 ```
 
 Lưu ý:
 - `export.py` đang dùng tham số mặc định của Ultralytics. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của notebook vào đây.
 - Điểm val nội bộ chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
-- Nếu dữ liệu là các frame cắt từ cùng video, chia ngẫu nhiên sẽ làm điểm val cao giả. Khi đó nên tách theo video.
+- `scripts/prepare_data.py` chia ngẫu nhiên. Nếu dữ liệu là các frame cắt từ cùng video, điểm val sẽ cao giả, nên dùng `tools/split_dataset.py`.
 - Mỗi bộ dữ liệu công khai đưa vào cần ghi lại tên, link, giấy phép, số ảnh và cách ánh xạ về 11 lớp cho báo cáo.
 
 ## CI/CD cho nhóm
