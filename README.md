@@ -44,7 +44,7 @@ Không commit dữ liệu, `runs/`, `.pt`, `.onnx`, `.zip` (đã có trong `.git
 
 Chốt phiên bản: `git tag -a v0.1.0 -m "v0.1.0" origin/main && git push origin v0.1.0` (bản zip mã nguồn xuất hiện ở **Releases**).
 
-**Chủ repo cần làm một lần:** Settings → Rules → Rulesets → Import a ruleset → chọn [.github/rulesets/protect-main.json](.github/rulesets/protect-main.json). Sau đó không ai push thẳng vào `main` được.
+`main` đã được bảo vệ bằng [ruleset](.github/rulesets/protect-main.json): không ai push thẳng được, mọi thay đổi phải qua PR.
 
 ## Lưu ý
 
