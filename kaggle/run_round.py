@@ -27,11 +27,11 @@ else:
     _args = re.sub(r'--sign-(model|conf) \S+', '', _args)
     print('No earlier best.pt: building without sign pseudo-labels')
 _run('pip install -q pycocotools remotezip')
-_zip = f'/kaggle/tmp/du_lieu_{ROUND}.zip'
-os.makedirs('/kaggle/tmp', exist_ok=True)
+_zip = f'/kaggle/temp/du_lieu_{ROUND}.zip'
+os.makedirs('/kaggle/temp', exist_ok=True)
 if not os.path.exists(_zip):
-    _run(f'python -u {_R}/tools/build_round.py --out {_zip} --work /kaggle/tmp/round_work {_args}')
-shutil.rmtree('/kaggle/tmp/round_work', ignore_errors=True)
+    _run(f'python -u {_R}/tools/build_round.py --out {_zip} --work /kaggle/temp/round_work {_args}')
+shutil.rmtree('/kaggle/temp/round_work', ignore_errors=True)
 
 _OUT = f'/kaggle/working/out/{ROUND}'
 os.makedirs(_OUT, exist_ok=True)
@@ -42,7 +42,7 @@ for _src in _cells:
         DATASET_PATH = _zip
         EPOCHS = _cfg['epochs']
         DRIVE_OUTPUT_DIR = _OUT
-        WORK_DIR = '/kaggle/tmp/work'
+        WORK_DIR = '/kaggle/temp/work'
         PARAMS['EPOCHS'] = EPOCHS
         print(f'Round {ROUND}: data {DATASET_PATH}, epochs {EPOCHS}, results -> {_OUT}')
 print('Xong:', os.listdir(_OUT))
