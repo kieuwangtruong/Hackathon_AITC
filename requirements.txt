@@ -1,0 +1,7 @@
+# Pinned so every teammate trains and exports with the same code.
+# yolo26 weights need ultralytics >= 8.4.0. If the official sample notebook
+# pins a different version, switch to that one so our model.onnx matches theirs.
+ultralytics==8.4.220
+onnx>=1.17
+onnxslim>=0.1.71
+onnxruntime>=1.20

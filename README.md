@@ -1,5 +1,34 @@
 # Hackathon_AITC
 
+## Huấn luyện baseline (yolo26n-seg, imgsz=640)
+
+Mô hình và kích thước ảnh do BTC cố định, nên các script chỉ cho đổi dữ liệu và công thức huấn luyện. Dữ liệu, `runs/`, trọng số và file `.onnx` đều nằm trong `.gitignore` vì CI đóng gói mọi file được Git theo dõi.
+
+| File | Việc |
+| --- | --- |
+| [requirements.txt](requirements.txt) | Ghim `ultralytics==8.4.220` để cả nhóm train và export giống nhau. |
+| [configs/data.yaml](configs/data.yaml) | Mẫu data.yaml với 11 lớp cố định của BTC. |
+| [scripts/prepare_data.py](scripts/prepare_data.py) | Nhận một hoặc nhiều thư mục/zip dạng `images/` + `labels/`, kiểm tra nhãn, chia train/val với seed cố định, in số instance mỗi lớp và ghi data.yaml. |
+| [train.py](train.py) | Train từ `yolo26n-seg.pt` pretrained, seed cố định, ghi `summary.json` với mask mAP từng lớp. |
+| [configs/hyp.yaml](configs/hyp.yaml) | Ví dụ tham số augmentation truyền qua `--hyp`. |
+| [export.py](export.py) | Xuất `model.onnx` fp32 640, kiểm tra bằng onnxruntime, đóng zip chỉ chứa `model.onnx` và chặn nếu quá 42 MB. |
+| [evaluate.py](evaluate.py) | Chấm `.pt` hoặc `.onnx` trên tập val của mình trước khi dùng lượt nộp. |
+| [predict.py](predict.py) | Chạy suy luận, lưu ảnh có mask và nhãn YOLO-seg để làm nhãn nháp. |
+
+```bash
+pip install -r requirements.txt
+python scripts/prepare_data.py --src du_lieu.zip --out datasets/robotaxi
+python train.py --data datasets/robotaxi/data.yaml --epochs 100 --batch 16
+python export.py --weights runs/segment/baseline/weights/best.pt
+python evaluate.py --model submission/model.onnx --data datasets/robotaxi/data.yaml
+```
+
+Lưu ý:
+- `export.py` đang dùng tham số mặc định của Ultralytics. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của notebook vào đây.
+- Điểm val nội bộ chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
+- Nếu dữ liệu là các frame cắt từ cùng video, chia ngẫu nhiên sẽ làm điểm val cao giả. Khi đó nên tách theo video.
+- Mỗi bộ dữ liệu công khai đưa vào cần ghi lại tên, link, giấy phép, số ảnh và cách ánh xạ về 11 lớp cho báo cáo.
+
 ## CI/CD cho nhóm
 
 Workflow kiểm tra cấu hình GitHub Actions và lỗi khoảng trắng trong phần thay đổi, sau đó tạo và kiểm tra gói ZIP từ commit đang chạy. [Xem workflow](.github/workflows/ci-cd.yml)

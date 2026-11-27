@@ -1,0 +1,27 @@
+# Template for the AIInAction RoboTaxi dataset in Ultralytics YOLO-seg format.
+# scripts/prepare_data.py writes a filled-in copy next to the split dataset;
+# use this file only if you lay the folders out by hand.
+#
+# Layout expected under `path`:
+#   images/train/*.jpg|png   labels/train/*.txt
+#   images/val/*.jpg|png     labels/val/*.txt
+# One label line per instance: <class id> <x1> <y1> <x2> <y2> ... (normalized 0-1).
+# Images with no objects keep an empty .txt.
+
+path: ../datasets/robotaxi # dataset root, relative to this file or absolute
+train: images/train
+val: images/val
+
+# Class ids are fixed by the competition. Do not reorder.
+names:
+  0: Car # sedan, SUV, minivan, 7-seater, pickup, taxi, van ambulance; 9-15 seat vans too
+  1: Bus # buses and coaches with 16+ seats
+  2: Truck # all trucks; for tractor units only the cabin and tractor body
+  3: Other vehicle # ba gac, xich lo, xe lam, construction, tractors, trailers, anything else
+  4: Motorcycle # no rider (parked or being walked)
+  5: Motorcyclist # one instance covering the bike and everyone on it
+  6: Bicycle # no rider (parked or being walked)
+  7: Cyclist # one instance covering the bike and the rider
+  8: Pedestrian # anyone not riding: walking, standing, sitting, children, walking a bike
+  9: Sign # sign face only, not the pole
+  10: Traffic light # whole housing, not just the lit lamp

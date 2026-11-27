@@ -1,0 +1,28 @@
+# CI zips every tracked file, so keep data, runs and weights out of git.
+
+# Datasets
+datasets/
+data/
+*.zip
+
+# Training and inference outputs
+runs/
+outputs/
+submission/
+
+# Weights and exported models
+*.pt
+*.pth
+*.onnx
+*.engine
+*.torchscript
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Ultralytics caches
+*.cache
