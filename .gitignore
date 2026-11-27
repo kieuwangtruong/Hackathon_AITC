@@ -1,8 +1,9 @@
 # CI zips every tracked file, so keep data, runs and weights out of git.
 
-# Datasets (keep reviewed pov_hard_ez tracked for the training team)
+# Datasets (keep labeled sets tracked for the training team)
 datasets/*
 !datasets/pov_hard_ez/
+!datasets/pov_med/
 data/
 splits/
 *.zip
