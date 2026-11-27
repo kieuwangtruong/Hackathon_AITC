@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""Check a YOLO-seg dataset against the competition label format.
+"""Kiểm tra nhãn YOLO-seg: id 0-10, tọa độ trong [0, 1], mỗi ảnh có một .txt.
 
-Each label line: <class_id> <x1> <y1> <x2> <y2> ... (normalized to [0, 1]).
-An image with no objects must have an empty .txt file.
-
-Usage:
     python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
-Exits with status 1 if any error is found.
 """
 import argparse
 import collections

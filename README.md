@@ -1,49 +1,50 @@
 # Hackathon_AITC
 
-Cuộc thi RoboTaxi data-centric: mô hình cố định `yolo26n-seg`, `imgsz=640`. Nhóm chỉ cải thiện **dữ liệu**.
+Cuộc thi RoboTaxi: phân đoạn 11 lớp trong ảnh giao thông VN. Mô hình cố định (`yolo26n-seg`, 640), đội chỉ cải thiện **dữ liệu**.
 
-## Bắt đầu nhanh
+- **Hạn nộp: 10:30 ngày 28/11.** Máy chấm xếp hàng, đừng nộp sát giờ.
+- **Đội 43. TEAM_ID (seed): 48.** Điểm = 100 × mask mAP@[.5:.95].
+- Bài nộp phải tạo bằng notebook chính thức. Giữ lại `run_report.json`.
 
-**Trên Colab (khuyên dùng):** mở [notebook dùng chung](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb), chọn GPU, rồi chạy lần lượt các ô. Xem [colab/README.md](colab/README.md).
+## Làm thế nào
 
-**Trên máy:**
+1. Gán nhãn theo [hướng dẫn gán nhãn](docs/labeling-guideline-v1.md).
+2. Kiểm tra, chia train/val theo camera, đóng zip:
+   ```bash
+   pip install -r requirements.txt
+   python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
+   python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
+   python tools/make_split_zip.py --split splits/v1 --out du_lieu.zip
+   ```
+3. Tải `du_lieu.zip` lên Drive: `MyDrive/Hackathon_AITC/datasets/du_lieu.zip`.
+4. Mở [notebook chung](https://colab.research.google.com/github/kieuwangtruong/Hackathon_AITC/blob/main/colab/shared.ipynb), chọn T4 GPU, **Run all**.
+5. Nộp `submission.zip` trong `MyDrive/Hackathon_AITC/ket_qua/`.
 
-```bash
-pip install -r requirements.txt
-python tools/check_labels.py --images datasets/v1/images --labels datasets/v1/labels
-python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels --out splits/v1
-python train.py --data splits/v1/data.yaml --epochs 100
-python export.py --weights runs/segment/baseline/weights/best.pt       # -> submission/*.zip
-python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
-```
+## Tài liệu
 
-## Trong repo có gì
+- [docs/labeling-guideline-v1.md](docs/labeling-guideline-v1.md): 11 lớp, quy tắc vẽ mask, ca dễ nhầm, quy trình SAM 3.
+- [docs/dataset_plan.md](docs/dataset_plan.md): cách chia val, dữ liệu công khai.
+- [colab/README.md](colab/README.md): cách dùng notebook chung.
+
+## Công cụ
 
 | File | Dùng để |
 | --- | --- |
-| `tools/check_labels.py` | Kiểm tra nhãn đúng định dạng YOLO-seg |
-| `tools/split_dataset.py` | Chia train/val theo camera/địa điểm |
-| `train.py` | Train (thêm augmentation qua `--hyp configs/hyp.yaml`) |
-| `export.py` | Tạo file zip nộp bài (`model.onnx` fp32, tối đa 42 MB) |
-| `evaluate.py` | Chấm `.pt`/`.onnx` trên val trước khi tốn lượt nộp |
-| `predict.py` | Tạo nhãn nháp từ model để người sửa lại |
-| `scripts/prepare_data.py` | Chia ngẫu nhiên nhanh (chỉ khi không có thông tin camera) |
-| [docs/dataset_plan.md](docs/dataset_plan.md) | Quy tắc gán nhãn, cách chia val, dữ liệu công khai |
+| `tools/check_labels.py` | Kiểm tra nhãn |
+| `tools/split_dataset.py` | Chia train/val theo camera |
+| `tools/make_split_zip.py` | Đóng zip cho notebook |
+| `train.py`, `evaluate.py` | Train và chấm nhanh trên máy |
+| `predict.py` | Tạo nhãn nháp từ model |
+| `export.py` | Xuất ONNX để thử (bản nộp thật dùng notebook) |
 
-Không commit dữ liệu, `runs/`, `.pt`, `.onnx`, `.zip` (đã có trong `.gitignore`).
+## Quy trình Git
 
-## Quy trình làm việc
+1. `git switch -c feat/<tên>/<việc> origin/main`
+2. Commit, push, mở PR vào `main`.
+3. Check **Validate pull request** xanh thì merge. `main` đã khóa, không push thẳng được.
 
-1. Tạo nhánh từ `main`: `git switch -c feat/<tên>/<việc> origin/main`.
-2. Commit, `git push -u origin feat/<tên>/<việc>`, mở PR vào `main`.
-3. Đợi check **Validate pull request** xanh rồi merge. Notebook Colab tự cập nhật theo `main`.
+Không commit dữ liệu, `runs/`, `.pt`, `.onnx`, `.zip`.
 
-Chốt phiên bản: `git tag -a v0.1.0 -m "v0.1.0" origin/main && git push origin v0.1.0` (bản zip mã nguồn xuất hiện ở **Releases**).
+## Báo cáo
 
-**Chủ repo cần làm một lần:** Settings → Rules → Rulesets → Import a ruleset → chọn [.github/rulesets/protect-main.json](.github/rulesets/protect-main.json). Sau đó không ai push thẳng vào `main` được.
-
-## Lưu ý
-
-- `export.py` đang dùng tham số mặc định. Khi có notebook mẫu của BTC, chép đúng lời gọi `model.export(...)` của họ vào.
-- Điểm val chỉ để so sánh các phiên bản dữ liệu với nhau, không phải điểm private.
-- Mỗi bộ dữ liệu công khai đã dùng phải ghi vào báo cáo: tên, link, giấy phép, số ảnh, cách ánh xạ 11 lớp.
+Ghi lại mọi bộ dữ liệu công khai đã dùng: tên, link, giấy phép, số ảnh, cách ánh xạ về 11 lớp.

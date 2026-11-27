@@ -1,30 +1,12 @@
 #!/usr/bin/env python3
-"""Make a train/val split that holds out whole cameras/locations, balanced by time of day.
+"""Chia train/val theo camera/video, cân bằng ngày/đêm.
 
-The private test set is presumably shot on cameras, streets and times we never see. A random
-split leaks near-identical neighbouring frames into val and overstates the score, so this
-script splits by *group* instead:
+Cả nhóm ảnh cùng camera/video vào chung một tập, nên val không có ảnh gần giống train.
+Nhóm lấy từ cột `group` trong --meta, nếu không có thì từ tên file bỏ số frame.
+Ghi ra --out: train.txt, val.txt, data.yaml, split_report.json.
 
-  1. Group key per image, first match wins:
-       a. `group` column in --meta, else `camera`, else `location`
-       b. filename prefix with the trailing frame number removed
-          (e.g. `hcm_cam03_000123.jpg` -> `hcm_cam03`)
-     Groups that contain near-duplicate images (perceptual hash) are then merged, so the same
-     scene cannot sit on both sides.
-  2. Condition per image: `time_of_day` / `weather` columns from --meta, else a brightness
-     guess (dark -> night, otherwise day). Weather is never guessed.
-  3. Whole groups go to val, picked per condition stratum until each stratum holds about
-     --val-frac of its images.
-
-Outputs in --out: train.txt, val.txt (absolute image paths), data.yaml, split_report.json.
-Ultralytics reads the .txt lists directly and finds labels by swapping /images/ for /labels/.
-
-Usage:
     python tools/split_dataset.py --images datasets/v1/images --labels datasets/v1/labels \
-        --out splits/v1 [--meta datasets/v1/meta.csv] [--val-frac 0.2] [--seed 0]
-
---meta is an optional CSV with a `file` column (image file name) plus any of:
-group, camera, location, time_of_day (day/dusk/night), weather (clear/rain/...), source.
+        --out splits/v1 [--meta datasets/v1/meta.csv] [--val-frac 0.2]
 """
 import argparse
 import collections

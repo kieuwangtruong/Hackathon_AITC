@@ -1,6 +1,5 @@
-# Example extra train args for train.py --hyp. Values shown are Ultralytics
-# defaults; change them to try augmentation for night, rain and crowded scenes.
-# model, imgsz and data are fixed and may not be set here.
+# Tham số train thêm cho train.py --hyp (giá trị mặc định của Ultralytics).
+# Đổi để thử augmentation cho cảnh đêm, mưa, đông xe. Không đặt model, imgsz, data ở đây.
 hsv_h: 0.015
 hsv_s: 0.7
 hsv_v: 0.4
