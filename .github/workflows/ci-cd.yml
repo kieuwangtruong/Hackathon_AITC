@@ -1,0 +1,123 @@
+name: Hackathon CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  ci:
+    name: Validate and package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+    steps:
+      - name: Check out the revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check release commit is on main
+        if: github.ref_type == 'tag'
+        run: |
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::Create the release tag from a commit already merged into main."
+            exit 1
+          fi
+
+      - name: Check whitespace in changed lines
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -z "$BASE_SHA" || "$BASE_SHA" =~ ^0+$ ]] ||
+            ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            BASE_SHA=$(git rev-parse --verify HEAD^ 2>/dev/null || git hash-object -t tree /dev/null)
+          fi
+          git diff --check "$BASE_SHA" HEAD --
+
+      - name: Lint GitHub Actions workflows
+        run: |
+          lint_dir=$(mktemp -d)
+          archive=actionlint_1.7.12_linux_amd64.tar.gz
+          curl --fail --silent --show-error --location --retry 3 \
+            "https://github.com/rhysd/actionlint/releases/download/v1.7.12/$archive" \
+            --output "$lint_dir/$archive"
+          (
+            cd "$lint_dir"
+            echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  $archive" | sha256sum --check
+            tar -xzf "$archive" actionlint
+          )
+          "$lint_dir/actionlint" -color
+
+      - name: Package the checked revision
+        run: |
+          mkdir -p dist
+          git archive --format=zip --prefix=Hackathon_AITC/ \
+            --output=dist/Hackathon_AITC-source.zip HEAD
+          cd dist
+          unzip -tq Hackathon_AITC-source.zip
+          sha256sum Hackathon_AITC-source.zip > SHA256SUMS.txt
+
+      - name: Save the source bundle
+        if: github.event_name == 'push'
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hackathon-source-${{ github.run_attempt }}
+          path: |
+            dist/Hackathon_AITC-source.zip
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          compression-level: 0
+
+  release:
+    name: Publish GitHub Release
+    needs: ci
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Download the checked bundle
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          artifact-ids: ${{ needs.ci.outputs.artifact-id }}
+          path: dist
+          merge-multiple: true
+
+      - name: Publish the versioned release
+        working-directory: dist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          sha256sum --check SHA256SUMS.txt
+          if is_draft=$(gh release view "$GITHUB_REF_NAME" --json isDraft --jq .isDraft 2>/dev/null); then
+            if [[ "$is_draft" == true ]]; then
+              echo "::error::A draft release already exists for $GITHUB_REF_NAME. Review it before retrying."
+              exit 1
+            fi
+            gh release download "$GITHUB_REF_NAME" --pattern Hackathon_AITC-source.zip --output - | cmp Hackathon_AITC-source.zip -
+            gh release download "$GITHUB_REF_NAME" --pattern SHA256SUMS.txt --output - | cmp SHA256SUMS.txt -
+            echo "Release $GITHUB_REF_NAME already contains this bundle."
+          else
+            gh release create "$GITHUB_REF_NAME" Hackathon_AITC-source.zip SHA256SUMS.txt \
+              --verify-tag --generate-notes
+          fi
