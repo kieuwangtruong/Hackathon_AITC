@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: ['**']
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+  group: ${{ github.workflow }}-${{ github.event.ref || github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.event.ref || github.ref, 'refs/tags/') }}
 
 defaults:
   run:
@@ -21,7 +21,8 @@ defaults:
 
 jobs:
   ci:
-    name: Validate and package
+    name: ${{ github.event_name == 'pull_request' && 'Validate pull request' || 'Validate and package' }}
+    if: github.event_name != 'push' || !github.event.deleted
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
@@ -47,7 +48,11 @@ jobs:
         run: |
           if [[ -z "$BASE_SHA" || "$BASE_SHA" =~ ^0+$ ]] ||
             ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
-            BASE_SHA=$(git rev-parse --verify HEAD^ 2>/dev/null || git hash-object -t tree /dev/null)
+            if [[ "$GITHUB_REF_TYPE" == branch && "$GITHUB_REF" != refs/heads/main ]]; then
+              BASE_SHA=$(git merge-base origin/main HEAD 2>/dev/null || git hash-object -t tree /dev/null)
+            else
+              BASE_SHA=$(git rev-parse --verify HEAD^ 2>/dev/null || git hash-object -t tree /dev/null)
+            fi
           fi
           git diff --check "$BASE_SHA" HEAD --
 
@@ -75,7 +80,7 @@ jobs:
           sha256sum Hackathon_AITC-source.zip > SHA256SUMS.txt
 
       - name: Save the source bundle
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref_type == 'tag')
         id: upload
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
