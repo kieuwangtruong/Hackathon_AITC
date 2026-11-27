@@ -41,7 +41,8 @@ for k in sorted(ch):
     if split not in cocos: cocos[split] = COCO(f'coco/annotations/instances_{split}.json')
     c = cocos[split]; iid = int(fn[:-4]); info = c.imgs[iid]
     src = 'coco/raw/' + k.replace('/', '_')
-    if not os.path.exists(src): dropped['missing'] += 1; continue
+    img = cv2.imread(src) if os.path.exists(src) else None
+    if img is None: dropped['missing_or_bad'] += 1; continue
     H, W = info['height'], info['width']
     anns = [a for a in c.imgToAnns[iid] if c.cats[a['category_id']]['name'] in MAP and not a['iscrowd']]
     cls = [MAP[c.cats[a['category_id']]['name']] for a in anns]
@@ -86,7 +87,7 @@ for k in sorted(ch):
         if poly is None: dropped['tiny_or_bad'] += 1; continue
         lines.append(f"{insts[i][0]} " + ' '.join(f'{v:.5f}' for v in poly.reshape(-1)))
         stats[insts[i][0]] += 1
-    img = cv2.imread(src); img = cv2.resize(img, (nw, nh), interpolation=cv2.INTER_AREA)
+    img = cv2.resize(img, (nw, nh), interpolation=cv2.INTER_AREA)
     stem = f'coco_{fn[:-4]}'
     cv2.imwrite(f'{OUT}/images/{stem}.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 90])
     open(f'{OUT}/labels/{stem}.txt', 'w').write('\n'.join(lines) + ('\n' if lines else ''))
