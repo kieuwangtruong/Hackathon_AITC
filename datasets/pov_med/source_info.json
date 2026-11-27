@@ -29,6 +29,6 @@
   "annotation_format": "yolo-seg",
   "polygon_validation": {
     "check_labels_errors": 0,
-    "check_labels_warnings": 0
+    "check_labels_warnings": 15
   }
 }

@@ -10,7 +10,7 @@ Bộ 50 ảnh giao thông Việt Nam (tầng `med`) từ nguồn **Vietnam Traff
 - **Lưu ý cho team train**:
   - `Cyclist` hiện có **0** mẫu và `Bicycle` có **1** mẫu — nên gộp chung với `pov_hard_ez` và bổ sung thêm dữ liệu có `Cyclist`, `Bicycle`, ảnh đêm/mưa.
   - Đã bỏ qua các mảnh không nhận diện được / phần xe của người quay ở mép ảnh và các bảng tuyên truyền ven đường.
-  - Mọi đa giác đã vượt qua `tools/check_labels.py` (**0 lỗi, 0 cảnh báo**).
+  - Mọi đa giác đã vượt qua `tools/check_labels.py` bản kiểm tra tự cắt (**0 lỗi**; 15 cảnh báo cầu nối giữa các mảnh bị che, hợp lệ).
 
 ## Cách kiểm tra, chia tập và đóng gói cho Colab
 

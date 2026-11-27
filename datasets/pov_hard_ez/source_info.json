@@ -14,8 +14,8 @@
     "Other vehicle": 16,
     "Motorcycle": 20,
     "Motorcyclist": 425,
-    "Bicycle": 4,
-    "Cyclist": 0,
+    "Bicycle": 3,
+    "Cyclist": 1,
     "Pedestrian": 40,
     "Sign": 199,
     "Traffic light": 59
