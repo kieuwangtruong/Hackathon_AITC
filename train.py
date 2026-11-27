@@ -1,12 +1,7 @@
-"""Train the fixed competition model (yolo26n-seg, imgsz=640) on our dataset.
+"""Train nhanh trên máy: yolo26n-seg, imgsz 640, seed 48.
 
-The model and image size are set by the competition; only the data and the
-training recipe are ours to change. Every run uses a fixed seed and
-deterministic mode so two runs on the same data should give close scores.
-
-Example:
-    python train.py --data datasets/robotaxi/data.yaml --epochs 100 --batch 16
-    python train.py --data datasets/robotaxi/data.yaml --hyp configs/hyp.yaml --name heavy_aug
+    python train.py --data splits/v1/data.yaml --epochs 100
+    python train.py --data splits/v1/data.yaml --hyp configs/hyp.yaml --name aug
 """
 
 from __future__ import annotations
@@ -30,7 +25,7 @@ def main() -> None:
     ap.add_argument("--device", default=None, help="0, 0,1, cpu or mps; default picks automatically")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--patience", type=int, default=30, help="stop after this many epochs without improvement")
-    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seed", type=int, default=48, help="our TEAM_ID from the organizers")
     ap.add_argument("--project", default="runs/segment")
     ap.add_argument("--name", default="baseline")
     ap.add_argument("--hyp", type=Path, help="YAML of extra Ultralytics train args (augmentation, lr, ...)")

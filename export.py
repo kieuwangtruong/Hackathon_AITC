@@ -1,14 +1,7 @@
-"""Export trained weights to the submission format: a zip with one model.onnx.
+"""Xuất ONNX và đóng zip để thử nhanh, cùng tham số với BTC.
 
-Rules: fp32, imgsz=640, ONNX of yolo26n-seg, zip at most 42 MB holding exactly
-one file named model.onnx.
+Bản nộp thật phải tạo bằng Bước 4 của notebook chính thức (colab/shared.ipynb).
 
-GUESS: the official sample notebook (competition Data tab) is not in this repo
-yet, so the export arguments below are Ultralytics defaults (static 1x3x640x640
-input, simplify on, no dynamic axes, no half). Once we have the notebook, copy
-its exact model.export(...) call here so our ONNX matches what the grader expects.
-
-Example:
     python export.py --weights runs/segment/baseline/weights/best.pt
 """
 
@@ -48,15 +41,13 @@ def main() -> None:
     ap.add_argument("--weights", required=True, type=Path, help="best.pt from train.py")
     ap.add_argument("--out", type=Path, default=Path("submission"), help="folder for model.onnx and the zip")
     ap.add_argument("--zip-name", default=None, help="default: <run name>.zip")
-    ap.add_argument("--opset", type=int, default=None, help="ONNX opset; default lets Ultralytics choose")
     args = ap.parse_args()
 
     model = YOLO(str(args.weights))
     if model.task != "segment":
         raise SystemExit(f"{args.weights} is a {model.task} model, expected segment.")
-    exported = Path(
-        model.export(format="onnx", imgsz=IMGSZ, half=False, dynamic=False, simplify=True, opset=args.opset)
-    )
+    # Exact call from the organizers' EXPORT_CONTRACT. Never pass nms (True or False changes the output head).
+    exported = Path(model.export(format="onnx", imgsz=IMGSZ, opset=17, simplify=True, dynamic=False, half=False, batch=1))
 
     args.out.mkdir(parents=True, exist_ok=True)
     onnx_path = args.out / "model.onnx"

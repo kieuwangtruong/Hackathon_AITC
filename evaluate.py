@@ -1,13 +1,6 @@
-"""Score a .pt or exported .onnx model on our validation split.
+"""Chấm nhanh một model .pt hoặc .onnx trên tập val (mask mAP, từng lớp).
 
-Use this to compare dataset versions locally before spending one of the 20
-submissions, and to confirm the ONNX scores the same as the .pt it came from.
-Our val split is not the private test set, so treat the number as a relative
-signal between our own runs.
-
-Example:
-    python evaluate.py --model runs/segment/baseline/weights/best.pt --data datasets/robotaxi/data.yaml
-    python evaluate.py --model submission/model.onnx --data datasets/robotaxi/data.yaml
+    python evaluate.py --model submission/model.onnx --data splits/v1/data.yaml
 """
 
 from __future__ import annotations
