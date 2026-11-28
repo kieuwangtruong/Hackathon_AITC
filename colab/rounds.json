@@ -1,0 +1,42 @@
+{
+ "v4": {
+  "prev": "v3",
+  "epochs": 50,
+  "args": "--vn-repeat 5 --coco-val 300 --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v5": {
+  "prev": "v4",
+  "epochs": 22,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v6": {
+  "prev": "v4",
+  "epochs": 22,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v7": {
+  "prev": "v5",
+  "epochs": 40,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v8": {
+  "prev": "v6",
+  "epochs": 40,
+  "args": "--vn-repeat 5 --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v9": {
+  "prev": "v7",
+  "epochs": 15,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":12,\"9\":5}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v10": {
+  "prev": "v9",
+  "epochs": 40,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":12,\"9\":5}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v11": {
+  "prev": "v9",
+  "epochs": 25,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":20,\"9\":5}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":0}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ }
+}

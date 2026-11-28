@@ -1,0 +1,27 @@
+import json, os, concurrent.futures as cf
+from remotezip import RemoteZip
+ch = json.load(open('coco/chosen.json'))
+os.makedirs('coco/raw', exist_ok=True)
+by = {}
+for k in ch: by.setdefault(k.split('/')[0], []).append(k)
+def job(split, names):
+    import time
+    z = None
+    for n, k in enumerate(names):
+        out = 'coco/raw/' + k.replace('/', '_')
+        for attempt in range(5):
+            if os.path.exists(out): break
+            try:
+                if z is None:
+                    z = RemoteZip(f'https://s3.amazonaws.com/fast-ai-coco/{split}.zip')
+                data = z.read(k); open(out + '.part', 'wb').write(data); os.replace(out + '.part', out)
+            except Exception as e:
+                print('retry', k, e, flush=True); z = None; time.sleep(2 * (attempt + 1))
+        if n % 100 == 0: print(split, n, '/', len(names), flush=True)
+tasks = []
+with cf.ThreadPoolExecutor(8) as ex:
+    for split, ks in by.items():
+        for i in range(8):
+            tasks.append(ex.submit(job, split, ks[i::8]))
+    for t in tasks: t.result()
+print('done', len(os.listdir('coco/raw')))
