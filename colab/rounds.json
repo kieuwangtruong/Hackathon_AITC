@@ -22,6 +22,6 @@
  "v8": {
   "prev": "v6",
   "epochs": 40,
-  "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
+  "args": "--vn-repeat 5 --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
  }
 }
