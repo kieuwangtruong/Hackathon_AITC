@@ -13,5 +13,10 @@
   "prev": "v4",
   "epochs": 22,
   "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":500,\"bike\":300,\"ped\":400,\"tl\":200,\"stop\":100,\"bus\":400,\"truck\":300}' --sign-model {PREV_BEST} --sign-conf 0.5"
+ },
+ "v7": {
+  "prev": "v5",
+  "epochs": 40,
+  "args": "--vn-repeat 6 --vn-boost '{\"3\":4,\"9\":2}' --coco-val-list /content/repo_r/configs/coco_val_v4.txt --quota '{\"moto\":800,\"bike\":450,\"ped\":600,\"tl\":300,\"stop\":150,\"bus\":600,\"truck\":450}' --sign-model {PREV_BEST} --sign-conf 0.5"
  }
 }
